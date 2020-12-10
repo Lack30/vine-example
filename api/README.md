@@ -10,12 +10,12 @@ vine api 默认命名空间为 go.vine.api. 可通过 `--namespace=` 参数修�
 
 vine api 支持不同种类的请求处理器，默认为 rpc。可通过 `--handler=` 参数修改
 
-## Contents
+## 相关
 
-- api - an rpc handler that provides the entire http headers and request
-- proxy - use the api as a http reverse proxy
-- rpc - make an rpc request to a go-vine app
-- meta - specify which handler to use via configuration in code
+- api - http 处理
+- proxy - 反向代理
+- rpc - rpc 转 http
+- meta - 自定义配置
 
 ## 请求映射
 
@@ -23,27 +23,27 @@ vine api 支持不同种类的请求处理器，默认为 rpc。可通过 `--han
 
 vine api RPC 请求映射表
 
-Path	|	Service	|	Method
+Path    |    Service    |    Method
 ----	|	----	|	----
-/foo/bar	|	go.vine.api.foo	|	Foo.Bar
-/foo/bar/baz	|	go.vine.api.foo	|	Bar.Baz
-/foo/bar/baz/cat	|	go.vine.api.foo.bar	|	Baz.Cat
+/foo/bar    |    go.vine.api.foo    |    Foo.Bar
+/foo/bar/baz    |    go.vine.api.foo    |    Bar.Baz
+/foo/bar/baz/cat    |    go.vine.api.foo.bar    |    Baz.Cat
 
 api 请求映射表
 
-Path	|	Service	|	Method
+Path    |    Service    |    Method
 ----	|	----	|	----
-/foo/bar	|	go.vine.api.foo	|	Foo.Bar
-/v1/foo/bar	|	go.vine.api.v1.foo	|	Foo.Bar
-/v1/foo/bar/baz	|	go.vine.api.v1.foo	|	Bar.Baz
-/v2/foo/bar	|	go.vine.api.v2.foo	|	Foo.Bar
-/v2/foo/bar/baz	|	go.vine.api.v2.foo	|	Bar.Baz
+/foo/bar    |    go.vine.api.foo    |    Foo.Bar
+/v1/foo/bar    |    go.vine.api.v1.foo    |    Foo.Bar
+/v1/foo/bar/baz    |    go.vine.api.v1.foo    |    Bar.Baz
+/v2/foo/bar    |    go.vine.api.v2.foo    |    Foo.Bar
+/v2/foo/bar/baz    |    go.vine.api.v2.foo    |    Bar.Baz
 
 ### proxy 映射
 
 proxy 映射需要指定为 http 请求处理 `--handler=http`
 
-Path	|	Service	|	Service Path
+Path    |    Service    |    Service Path
 ---	|	---	|	---
-/greeter	|	go.vine.api.greeter	|	/greeter
-/greeter/:name	|	go.vine.api.greeter	|	/greeter/:name
+/greeter    |    go.vine.api.greeter    |    /greeter
+/greeter/:name    |    go.vine.api.greeter    |    /greeter/:name
