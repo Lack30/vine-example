@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package testdata;
+
+import "github.com/gogo/googleapis/google/api/annotations.proto";
+
+service Helloworld {
+  rpc Call(HelloWorldRequest) returns (HelloWorldResponse) {
+    option (google.api.http) = { post: "/api/v1/call"; body: "*"; };
+  };
+}
+
+message HelloWorldRequest {
+  string name = 1;
+}
+
+message HelloWorldResponse {
+  string reply = 1;
+}
