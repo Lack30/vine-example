@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+service Echo {
+  rpc Call(Request) returns (Response) {};
+}
+
+message Request {}
+
+message Response {
+  string reply = 1;
+}
