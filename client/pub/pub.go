@@ -25,6 +25,9 @@ func pub(i int, p vine.Event) {
 
 func main() {
 	service := vine.NewService()
+
+	vine.Cmd(nil)
+
 	service.Init()
 
 	p := vine.NewEvent("example", service.Client())
