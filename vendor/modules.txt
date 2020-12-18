@@ -149,7 +149,7 @@ github.com/jbenet/go-context/io
 github.com/json-iterator/go
 # github.com/kevinburke/ssh_config v0.0.0-20190725054713-01f96b0aa0cd
 github.com/kevinburke/ssh_config
-# github.com/lack-io/cli v0.1.1
+# github.com/lack-io/cli v1.0.2
 ## explicit
 github.com/lack-io/cli
 # github.com/lack-io/plugins v0.1.9
@@ -265,6 +265,17 @@ github.com/lack-io/vine/util/socket
 github.com/lack-io/vine/util/tls
 github.com/lack-io/vine/util/wrapper
 github.com/lack-io/vine/web
+# github.com/lack-io/vineadm v0.3.2
+## explicit
+github.com/lack-io/vineadm/gogenerator/args
+github.com/lack-io/vineadm/gogenerator/examples/goproto-gen
+github.com/lack-io/vineadm/gogenerator/generator
+github.com/lack-io/vineadm/gogenerator/namer
+github.com/lack-io/vineadm/gogenerator/parser
+github.com/lack-io/vineadm/gogenerator/types
+github.com/lack-io/vineadm/util/build
+github.com/lack-io/vineadm/util/log
+github.com/lack-io/vineadm/util/third_party/forked/golang/reflect
 # github.com/miekg/dns v1.1.35
 github.com/miekg/dns
 # github.com/mitchellh/go-homedir v1.1.0
@@ -331,8 +342,10 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/net v0.0.0-20201202161906-c7110b5ffcbb
-## explicit
+# golang.org/x/mod v0.3.0
+golang.org/x/mod/module
+golang.org/x/mod/semver
+# golang.org/x/net v0.0.0-20201209123823-ac852fbbde11
 golang.org/x/net/bpf
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -348,9 +361,8 @@ golang.org/x/net/ipv4
 golang.org/x/net/ipv6
 golang.org/x/net/netutil
 golang.org/x/net/proxy
-golang.org/x/net/publicsuffix
 golang.org/x/net/trace
-# golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
+# golang.org/x/sys v0.0.0-20201119102817-f84b799fce68
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
@@ -360,6 +372,20 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
+# golang.org/x/tools v0.0.0-20201208233053-a543418bbed2
+golang.org/x/tools/go/ast/astutil
+golang.org/x/tools/imports
+golang.org/x/tools/internal/event
+golang.org/x/tools/internal/event/core
+golang.org/x/tools/internal/event/keys
+golang.org/x/tools/internal/event/label
+golang.org/x/tools/internal/fastwalk
+golang.org/x/tools/internal/gocommand
+golang.org/x/tools/internal/gopathwalk
+golang.org/x/tools/internal/imports
+# golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+golang.org/x/xerrors
+golang.org/x/xerrors/internal
 # google.golang.org/genproto v0.0.0-20200305110556-506484158171
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/rpc/status
