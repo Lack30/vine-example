@@ -1,4 +1,4 @@
-// Copyright 2020 The vineadm Authors
+// Copyright 2020 The gogogen Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@ package github.com.lack_io.vine_example.goproto.api;
 // Package-wide variables from generator "generated".
 option go_package = "api";
 
-// +vine:genproto=true
+// +gogo:genproto=true
 message Others {
   optional string info1 = 1;
 }
 
-// +vine:genproto=true
+// +gogo:genproto=true
 message TestStruct1 {
   optional string name = 1;
 

@@ -1,4 +1,4 @@
-// Copyright 2020 The vineadm Authors
+// Copyright 2020 The gogogen Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package api
 import (
 	encoding_binary "encoding/binary"
 	fmt "fmt"
+
 	io "io"
 	math "math"
 	math_bits "math/bits"

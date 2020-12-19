@@ -9,7 +9,6 @@ require (
 	github.com/lack-io/cli v1.0.2
 	github.com/lack-io/plugins v0.1.9
 	github.com/lack-io/vine v0.2.2
-	github.com/lack-io/vineadm v0.3.3
 	github.com/nats-io/nats-server/v2 v2.1.9 // indirect
 	google.golang.org/grpc v1.34.0
 )

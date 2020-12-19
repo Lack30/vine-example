@@ -1,6 +1,6 @@
 package api
 
-// +vine:genproto=true
+// +gogo:genproto=true
 type TestStruct1 struct {
 	Name      string            `json:"name,omitempty" protobuf:"bytes,1,opt,name=name"`
 	Map       map[string]string `json:"map,omitempty" protobuf:"bytes,2,rep,name=map"`
@@ -11,7 +11,7 @@ type TestStruct1 struct {
 	Others    Others            `json:"others,omitempty" protobuf:"bytes,7,opt,name=others"`
 }
 
-// +vine:genproto=true
+// +gogo:genproto=true
 type Others struct {
 	Info1 string `json:"info1,omitempty" protobuf:"bytes,1,opt,name=info1"`
 }
