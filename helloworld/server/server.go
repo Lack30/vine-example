@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lack-io/vine"
+	"github.com/lack-io/vine/service"
 
 	pb "github.com/lack-io/vine-example/helloworld/proto"
 )
@@ -19,13 +19,12 @@ func (t *HelloWorld) Call(ctx context.Context, req *pb.HelloWorldRequest, rsp *p
 }
 
 func main() {
-	service := vine.NewService(
-		vine.Name("go.vine.helloworld"),
+	srv := service.NewService(
+		service.Name("go.vine.helloworld"),
+		service.Address(":59090"),
 	)
 
-	service.Init()
-
-	pb.RegisterHelloworldHandler(service.Server(), new(HelloWorld))
-
-	service.Run()
+	srv.Init()
+	pb.RegisterHelloworldHandler(srv.Server(), new(HelloWorld))
+	srv.Run()
 }

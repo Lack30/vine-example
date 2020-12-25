@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lack-io/vine"
-	"github.com/lack-io/vine/client"
+	"github.com/lack-io/vine/service"
+	"github.com/lack-io/vine/service/client"
 )
 
 func main() {
-	service := vine.NewService()
-	service.Init()
-	c := service.Client()
+	srv := service.NewService()
+	srv.Init()
+	c := srv.Client()
 
 	request := c.NewRequest("greeter", "Greeter.Hello", "john", client.WithContentType("application/json"))
 	var response string

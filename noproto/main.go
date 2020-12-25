@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	"github.com/lack-io/vine"
+	"github.com/lack-io/vine/service"
 )
 
 type Greeter struct{}
@@ -15,16 +15,16 @@ func (g *Greeter) Hello(ctx context.Context, name *string, msg *string) error {
 
 func main() {
 	// create new service
-	service := vine.NewService(
-		vine.Name("greeter"),
+	server := service.NewService(
+		service.Name("greeter"),
 	)
 
 	// initialise command line
-	service.Init()
+	server.Init()
 
 	// set the handler
-	vine.RegisterHandler(service.Server(), new(Greeter))
+	service.RegisterHandler(server.Server(), new(Greeter))
 
 	// run service
-	service.Run()
+	server.Run()
 }

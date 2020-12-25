@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/lack-io/vine/web"
+	"github.com/lack-io/vine/service/web"
 )
 
 func index(w http.ResponseWriter, r *http.Request) {

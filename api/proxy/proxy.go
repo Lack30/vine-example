@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/lack-io/vine/errors"
-	"github.com/lack-io/vine/web"
+	"github.com/lack-io/vine/proto/errors"
+	"github.com/lack-io/vine/service/web"
 )
 
 // exampleCall will handle /example/call

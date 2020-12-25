@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/lack-io/cli"
-	"github.com/lack-io/vine"
+	"github.com/lack-io/vine/service"
 
 	proto "github.com/lack-io/vine-example/service/proto"
 )
@@ -19,7 +19,7 @@ func (g *Greeter) Hello(ctx context.Context, req *proto.Request, rsp *proto.Resp
 }
 
 // Setup and the client
-func runClient(service vine.Service) {
+func runClient(service service.Service) {
 	// Create new greeter client
 	greeter := proto.NewGreeterService("greeter", service.Client())
 
@@ -36,10 +36,10 @@ func runClient(service vine.Service) {
 
 func main() {
 	// Create a new service. Optionally include some options here.
-	service := vine.NewService(
-		vine.Name("greeter"),
-		vine.Version("latest"),
-		vine.Metadata(map[string]string{
+	srv := service.NewService(
+		service.Name("greeter"),
+		service.Version("latest"),
+		service.Metadata(map[string]string{
 			"type": "helloworld",
 		}),
 
@@ -47,7 +47,7 @@ func main() {
 
 		// Add runtime flags
 		// We could do this below too
-		vine.Flags(&cli.BoolFlag{
+		service.Flags(&cli.BoolFlag{
 			Name:  "run-client",
 			Usage: "Launch the client",
 		}),
@@ -56,12 +56,12 @@ func main() {
 	// Init will parse the command line flags. Any flags set will
 	// override the above settings. Options defined here will
 	// override anything set on the command line.
-	service.Init(
+	srv.Init(
 		// Add runtime action
 		// We could actually do this above
-		vine.Action(func(c *cli.Context) error {
+		service.Action(func(c *cli.Context) error {
 			if c.Bool("run-client") {
-				runClient(service)
+				runClient(srv)
 				os.Exit(0)
 			}
 			return nil
@@ -73,10 +73,10 @@ func main() {
 	// Setup the server
 
 	// Register handler
-	proto.RegisterGreeterHandler(service.Server(), new(Greeter))
+	proto.RegisterGreeterHandler(srv.Server(), new(Greeter))
 
 	// Run the server
-	if err := service.Run(); err != nil {
+	if err := srv.Run(); err != nil {
 		fmt.Println(err)
 	}
 }

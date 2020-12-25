@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/lack-io/vine/server"
-	"github.com/lack-io/vine/util/metadata"
+	"github.com/lack-io/vine/service/server"
+	"github.com/lack-io/vine/util/context/metadata"
 
 	example "github.com/lack-io/vine-example/server/proto/example"
 )

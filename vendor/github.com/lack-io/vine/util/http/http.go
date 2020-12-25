@@ -21,9 +21,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/lack-io/vine/client/selector"
-	"github.com/lack-io/vine/registry"
-	"github.com/lack-io/vine/util/metadata"
+	"github.com/lack-io/vine/service/client/selector"
+	"github.com/lack-io/vine/service/registry"
+	"github.com/lack-io/vine/util/context/metadata"
 )
 
 // Write sets the status and body on a http ResponseWriter

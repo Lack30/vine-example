@@ -26,7 +26,7 @@ import (
 	"golang.org/x/net/ipv4"
 	"golang.org/x/net/ipv6"
 
-	"github.com/lack-io/vine/log"
+	"github.com/lack-io/vine/service/logger"
 )
 
 // ServiceEntry is returned after we query for a service
@@ -160,7 +160,7 @@ func Listen(entries chan<- *ServiceEntry, exit chan struct{}) error {
 				m.SetQuestion(e.Name, dns.TypePTR)
 				m.RecursionDesired = false
 				if err := client.sendQuery(m); err != nil {
-					log.Errorf("[ERR] mdns: Failed to query instance %s: %v", e.Name, err)
+					logger.Errorf("[ERR] mdns: Failed to query instance %s: %v", e.Name, err)
 				}
 			}
 		}
@@ -198,7 +198,7 @@ func newClient() (*client, error) {
 	uconn4, err4 := net.ListenUDP("udp4", &net.UDPAddr{IP: net.IPv4zero, Port: 0})
 	uconn6, err6 := net.ListenUDP("udp6", &net.UDPAddr{IP: net.IPv6zero, Port: 0})
 	if err4 != nil && err6 != nil {
-		log.Errorf("[ERR] mdns: Failed to bind to udp port: %v %v", err4, err6)
+		logger.Errorf("[ERR] mdns: Failed to bind to udp port: %v %v", err4, err6)
 	}
 
 	if uconn4 == nil && uconn6 == nil {
@@ -216,7 +216,7 @@ func newClient() (*client, error) {
 	mconn4, err4 := net.ListenUDP("udp4", mdnsWildcardAddrIPv4)
 	mconn6, err6 := net.ListenUDP("udp6", mdnsWildcardAddrIPv6)
 	if err4 != nil && err6 != nil {
-		log.Errorf("[ERR] mdns: Failed to bind to udp port: %v %v", err4, err6)
+		logger.Errorf("[ERR] mdns: Failed to bind to udp port: %v %v", err4, err6)
 	}
 
 	if mconn4 == nil && mconn6 == nil {
@@ -389,7 +389,7 @@ func (c *client) query(params *QueryParam) error {
 				m.SetQuestion(inp.Name, inp.Type)
 				m.RecursionDesired = false
 				if err := c.sendQuery(m); err != nil {
-					log.Errorf("[ERR] mdns: Failed to query instance %s: %v", inp.Name, err)
+					logger.Errorf("[ERR] mdns: Failed to query instance %s: %v", inp.Name, err)
 				}
 			}
 		case <-params.Context.Done():

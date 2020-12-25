@@ -5,13 +5,13 @@ import (
 
 	"context"
 	example "github.com/lack-io/vine-example/server/proto/example"
-	"github.com/lack-io/vine"
-	"github.com/lack-io/vine/client"
-	"github.com/lack-io/vine/util/metadata"
+	"github.com/lack-io/vine/service"
+	"github.com/lack-io/vine/service/client"
+	"github.com/lack-io/vine/util/context/metadata"
 )
 
 // publishes a message
-func pub(p vine.Event) {
+func pub(p service.Event) {
 	msg := &example.Message{
 		Say: "This is an async message",
 	}
@@ -117,23 +117,23 @@ func pingPong(i int, c client.Client) {
 }
 
 func main() {
-	service := vine.NewService()
-	service.Init()
+	srv := service.NewService()
+	srv.Init()
 
-	p := vine.NewEvent("topic.example", service.Client())
+	p := service.NewEvent("topic.example", srv.Client())
 
 	fmt.Println("\n--- Publisher example ---")
 	pub(p)
 
 	fmt.Println("\n--- Call example ---")
 	for i := 0; i < 10; i++ {
-		call(i, service.Client())
+		call(i, srv.Client())
 	}
 
 	fmt.Println("\n--- Streamer example ---")
-	stream(10, service.Client())
+	stream(10, srv.Client())
 
 	fmt.Println("\n--- Ping Pong example ---")
-	pingPong(10, service.Client())
+	pingPong(10, srv.Client())
 
 }

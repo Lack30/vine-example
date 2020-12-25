@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lack-io/vine/auth"
-	"github.com/lack-io/vine/log"
+	"github.com/lack-io/vine/service/auth"
+	"github.com/lack-io/vine/service/logger"
 )
 
 // Generate generates a service account for and continually
@@ -42,7 +42,7 @@ func Generate(id string, name string, a auth.Auth) error {
 		if err != nil {
 			return err
 		}
-		log.Debugf("Auth [%v] Authenticated as %v issued by %v", a, name, acc.Issuer)
+		logger.Debugf("Auth [%v] Authenticated as %v issued by %v", a, name, acc.Issuer)
 
 		accID = acc.ID
 		accSecret = acc.Secret
@@ -82,7 +82,7 @@ func Generate(id string, name string, a auth.Auth) error {
 				auth.WithExpiry(time.Minute*10),
 			)
 			if err != nil {
-				log.Warnf("[Auth] Error refreshing token: %v", err)
+				logger.Warnf("[Auth] Error refreshing token: %v", err)
 				continue
 			}
 
@@ -92,4 +92,31 @@ func Generate(id string, name string, a auth.Auth) error {
 	}()
 
 	return nil
+}
+
+// TokenCookieName is the name of the cookie which stores the auth token
+const TokenCookieName = "vine-token"
+
+// SystemRules are the default rules which are applied to the runtime services
+var SystemRules = []*auth.Rule{
+	&auth.Rule{
+		ID:       "default",
+		Scope:    "*",
+		Resource: &auth.Resource{Type: "*", Name: "*", Endpoint: "*"},
+	},
+	&auth.Rule{
+		ID:       "auth-public",
+		Scope:    "",
+		Resource: &auth.Resource{Type: "service", Name: "go.vine.auth", Endpoint: "*"},
+	},
+	&auth.Rule{
+		ID:       "registry-get",
+		Scope:    "",
+		Resource: &auth.Resource{Type: "service", Name: "go.vine.registry", Endpoint: "Registry.GetService"},
+	},
+	&auth.Rule{
+		ID:       "registry-list",
+		Scope:    "",
+		Resource: &auth.Resource{Type: "service", Name: "go.vine.registry", Endpoint: "Registry.ListServices"},
+	},
 }

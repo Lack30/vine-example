@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lack-io/vine"
-	"github.com/lack-io/vine/config/cmd"
+	"github.com/lack-io/vine/service"
+	"github.com/lack-io/vine/service/config/cmd"
 
 	example "github.com/lack-io/vine-example/server/proto/example"
 )
 
 var (
-	cl = example.NewExampleService("go.vine.srv.example", vine.NewService(vine.Name("go.vine.srv.example")).Client())
+	cl = example.NewExampleService("go.vine.srv.example", service.NewService(service.Name("go.vine.srv.example")).Client())
 )
 
 func call(i int) {

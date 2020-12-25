@@ -6,7 +6,7 @@ import (
 	"time"
 
 	_ "github.com/lack-io/plugins/registry/etcd"
-	"github.com/lack-io/vine"
+	"github.com/lack-io/vine/service"
 
 	pb "github.com/lack-io/vine-example/registry/proto"
 )
@@ -19,13 +19,13 @@ func (e *Echo) Call(ctx context.Context, req *pb.Request, rsp *pb.Response) erro
 }
 
 func main() {
-	service := vine.NewService(
-		vine.Name("go.vine.srv.example"),
+	srv := service.NewService(
+		service.Name("go.vine.srv.example"),
 	)
 
-	service.Init()
+	srv.Init()
 
-	pb.RegisterEchoHandler(service.Server(), new(Echo))
+	pb.RegisterEchoHandler(srv.Server(), new(Echo))
 
 	close := make(chan struct{}, 1)
 
@@ -34,9 +34,9 @@ func main() {
 			close <- struct{}{}
 		}()
 		<-time.After(time.Second)
-		ss := vine.NewService(
-			vine.Name("go.vine.srv.example"),
-			vine.Registry(service.Options().Registry),
+		ss := service.NewService(
+			service.Name("go.vine.srv.example"),
+			service.Registry(srv.Options().Registry),
 		)
 		srv := pb.NewEchoService("go.vine.srv.example", ss.Client())
 
@@ -47,10 +47,10 @@ func main() {
 		log.Println(rsp)
 	}()
 
-	go service.Run()
+	go srv.Run()
 
 	select {
 	case <-close:
-		service.Server().Stop()
+		srv.Server().Stop()
 	}
 }

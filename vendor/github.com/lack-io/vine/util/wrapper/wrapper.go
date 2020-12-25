@@ -19,13 +19,13 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/lack-io/vine/auth"
-	"github.com/lack-io/vine/client"
-	"github.com/lack-io/vine/debug/stats"
-	"github.com/lack-io/vine/debug/trace"
-	"github.com/lack-io/vine/errors"
-	"github.com/lack-io/vine/server"
-	"github.com/lack-io/vine/util/metadata"
+	"github.com/lack-io/vine/proto/errors"
+	"github.com/lack-io/vine/service/auth"
+	"github.com/lack-io/vine/service/client"
+	"github.com/lack-io/vine/service/debug/stats"
+	"github.com/lack-io/vine/service/debug/trace"
+	"github.com/lack-io/vine/service/server"
+	"github.com/lack-io/vine/util/context/metadata"
 )
 
 type fromServiceWrapper struct {

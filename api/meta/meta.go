@@ -1,16 +1,16 @@
 package main
 
 import (
+	"context"
 	"log"
 
-	proto "github.com/lack-io/vine-example/api/meta/proto"
-	"github.com/lack-io/vine"
-	"github.com/lack-io/vine/api"
-	rapi "github.com/lack-io/vine/api/handler/api"
-	"github.com/lack-io/vine/api/handler/rpc"
-	"github.com/lack-io/vine/errors"
+	"github.com/lack-io/vine/proto/errors"
+	"github.com/lack-io/vine/service"
+	"github.com/lack-io/vine/service/api"
+	rapi "github.com/lack-io/vine/service/api/handler/api"
+	"github.com/lack-io/vine/service/api/handler/rpc"
 
-	"context"
+	proto "github.com/lack-io/vine-example/api/meta/proto"
 )
 
 type Example struct{}
@@ -42,14 +42,14 @@ func (f *Foo) Bar(ctx context.Context, req *proto.EmptyRequest, rsp *proto.Empty
 }
 
 func main() {
-	service := vine.NewService(
-		vine.Name("go.vine.api.example"),
+	srv := service.NewService(
+		service.Name("go.vine.api.example"),
 	)
 
-	service.Init()
+	srv.Init()
 
 	// register example handler
-	proto.RegisterExampleHandler(service.Server(), new(Example), api.WithEndpoint(&api.Endpoint{
+	proto.RegisterExampleHandler(srv.Server(), new(Example), api.WithEndpoint(&api.Endpoint{
 		// The RPC method
 		Name: "Example.Call",
 		// The HTTP paths. This can be a POSIX regex
@@ -61,7 +61,7 @@ func main() {
 	}))
 
 	// register foo handler
-	proto.RegisterFooHandler(service.Server(), new(Foo), api.WithEndpoint(&api.Endpoint{
+	proto.RegisterFooHandler(srv.Server(), new(Foo), api.WithEndpoint(&api.Endpoint{
 		// The RPC method
 		Name: "Foo.Bar",
 		// The HTTP paths. This can be a POSIX regex
@@ -72,7 +72,7 @@ func main() {
 		Handler: rapi.Handler,
 	}))
 
-	if err := service.Run(); err != nil {
+	if err := srv.Run(); err != nil {
 		log.Fatal(err)
 	}
 }

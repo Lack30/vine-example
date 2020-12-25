@@ -1,9 +1,9 @@
 package version
 
 import (
-	"github.com/lack-io/vine/client"
-	"github.com/lack-io/vine/client/selector"
-	"github.com/lack-io/vine/registry"
+	"github.com/lack-io/vine/service/client"
+	"github.com/lack-io/vine/service/client/selector"
+	"github.com/lack-io/vine/service/registry"
 )
 
 // Filter will filter the version of the service

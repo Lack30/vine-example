@@ -9,8 +9,8 @@ import (
 	"mime/multipart"
 	"strings"
 
-	"github.com/lack-io/vine"
-	api "github.com/lack-io/vine/api/proto"
+	api "github.com/lack-io/vine/proto/api"
+	"github.com/lack-io/vine/service"
 
 	proto "github.com/lack-io/vine-example/form/api/proto"
 )
@@ -41,15 +41,15 @@ func (f *Form) Multipart(ctx context.Context, req *api.Request, rsp *api.Respons
 }
 
 func main() {
-	service := vine.NewService(
-		vine.Name("go.vine.api.form"),
+	server := service.NewService(
+		service.Name("go.vine.api.form"),
 	)
 
-	service.Init()
+	server.Init()
 
-	proto.RegisterFormHandler(service.Server(), new(Form))
+	proto.RegisterFormHandler(server.Server(), new(Form))
 
-	if err := service.Run(); err != nil {
+	if err := server.Run(); err != nil {
 		log.Fatal(err)
 	}
 }

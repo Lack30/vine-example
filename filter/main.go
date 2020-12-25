@@ -4,17 +4,17 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lack-io/vine"
+	"github.com/lack-io/vine/service"
 
 	"github.com/lack-io/vine-example/filter/version"
 	proto "github.com/lack-io/vine-example/service/proto"
 )
 
 func main() {
-	service := vine.NewService()
-	service.Init()
+	server := service.NewService()
+	server.Init()
 
-	greeter := proto.NewGreeterService("greeter", service.Client())
+	greeter := proto.NewGreeterService("greeter", server.Client())
 
 	rsp, err := greeter.Hello(
 		// provide a context

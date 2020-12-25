@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lack-io/vine/client"
-	"github.com/lack-io/vine/config/cmd"
-	"github.com/lack-io/vine/registry"
-	"github.com/lack-io/vine/util/metadata"
+	"github.com/lack-io/vine/service/client"
+	"github.com/lack-io/vine/service/config/cmd"
+	"github.com/lack-io/vine/service/registry"
+	"github.com/lack-io/vine/util/context/metadata"
 
 	example "github.com/lack-io/vine-example/server/proto/example"
 )

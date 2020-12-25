@@ -7,9 +7,9 @@ import (
 	"log"
 	"strings"
 
-	"github.com/lack-io/vine"
-	api "github.com/lack-io/vine/api/proto"
-	"github.com/lack-io/vine/errors"
+	"github.com/lack-io/vine/proto/api"
+	"github.com/lack-io/vine/proto/errors"
+	"github.com/lack-io/vine/service"
 
 	proto "github.com/lack-io/vine-example/api/api/proto"
 )
@@ -80,19 +80,19 @@ func (f *Foo) Bar(ctx context.Context, req *api.Request, rsp *api.Response) erro
 }
 
 func main() {
-	service := vine.NewService(
-		vine.Name("go.vine.api.example"),
+	srv := service.NewService(
+		service.Name("go.vine.api.example"),
 	)
 
-	service.Init()
+	srv.Init()
 
 	// register example handler
-	proto.RegisterExampleHandler(service.Server(), new(Example))
+	proto.RegisterExampleHandler(srv.Server(), new(Example))
 
 	// register foo handler
-	proto.RegisterFooHandler(service.Server(), new(Foo))
+	proto.RegisterFooHandler(srv.Server(), new(Foo))
 
-	if err := service.Run(); err != nil {
+	if err := srv.Run(); err != nil {
 		log.Fatal(err)
 	}
 }

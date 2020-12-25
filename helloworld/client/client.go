@@ -3,14 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-
-	"github.com/lack-io/vine"
+	
+	"github.com/lack-io/vine/service"
 
 	pb "github.com/lack-io/vine-example/helloworld/proto"
 )
 
 func main() {
-	srv := vine.NewService(vine.Name("go.vine.helloworld"))
+	srv := service.NewService(service.Name("go.vine.helloworld"))
 	service := pb.NewHelloworldService("go.vine.helloworld", srv.Client())
 
 	rsp, err := service.Call(context.TODO(), &pb.HelloWorldRequest{Name: "world"})

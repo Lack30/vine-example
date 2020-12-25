@@ -18,7 +18,7 @@ package socket
 import (
 	"io"
 
-	"github.com/lack-io/vine/transport"
+	"github.com/lack-io/vine/service/network/transport"
 )
 
 // Socket is our pseudo socket for transport.Socket

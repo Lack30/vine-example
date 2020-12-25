@@ -18,7 +18,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/lack-io/vine/client/selector"
+	"github.com/lack-io/vine/service/client/selector"
 )
 
 type roundTripper struct {

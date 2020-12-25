@@ -1,13 +1,14 @@
 package main
 
 import (
+	"context"
 	"log"
+	"time"
+
+	"github.com/lack-io/vine/proto/errors"
+	"github.com/lack-io/vine/service"
 
 	proto "github.com/lack-io/vine-example/api/rpc/proto"
-	"github.com/lack-io/vine"
-	"github.com/lack-io/vine/errors"
-
-	"context"
 )
 
 type Example struct{}
@@ -39,19 +40,26 @@ func (f *Foo) Bar(ctx context.Context, req *proto.EmptyRequest, rsp *proto.Empty
 }
 
 func main() {
-	service := vine.NewService(
-		vine.Name("go.vine.api.example"),
+	srv := service.NewService(
+		service.Name("go.vine.api.example"),
 	)
 
-	service.Init()
+	srv.Init()
 
 	// register example handler
-	proto.RegisterExampleHandler(service.Server(), new(Example))
+	proto.RegisterExampleHandler(srv.Server(), new(Example))
 
 	// register foo handler
-	proto.RegisterFooHandler(service.Server(), new(Foo))
+	proto.RegisterFooHandler(srv.Server(), new(Foo))
 
-	if err := service.Run(); err != nil {
+	go func() {
+		<-time.After(time.Second * 2)
+		client := proto.NewExampleService("go.vine.api.example", srv.Client())
+		rsp, err := client.Call(context.TODO(), &proto.CallRequest{Name: ""})
+		log.Printf("rsp = %v, err = %v", rsp, err)
+	}()
+
+	if err := srv.Run(); err != nil {
 		log.Fatal(err)
 	}
 }

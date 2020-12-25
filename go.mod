@@ -7,8 +7,8 @@ require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/lack-io/cli v1.0.2
-	github.com/lack-io/plugins v0.1.9
-	github.com/lack-io/vine v0.2.2
+	github.com/lack-io/plugins v0.2.1
+	github.com/lack-io/vine v0.4.5
 	github.com/nats-io/nats-server/v2 v2.1.9 // indirect
 	google.golang.org/grpc v1.34.0
 )

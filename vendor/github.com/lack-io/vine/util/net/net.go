@@ -43,7 +43,7 @@ func HostPort(addr string, port interface{}) string {
 func Listen(addr string, fn func(string) (net.Listener, error)) (net.Listener, error) {
 
 	if strings.Count(addr, ":") == 1 && strings.Count(addr, "-") == 0 {
-		fn(addr)
+		return fn(addr)
 	}
 
 	// host:port || host:min-max

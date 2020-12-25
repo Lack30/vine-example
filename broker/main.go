@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/lack-io/vine/broker"
-	"github.com/lack-io/vine/config/cmd"
-	"github.com/lack-io/vine/log"
+	"github.com/lack-io/vine/service/broker"
+	"github.com/lack-io/vine/service/config/cmd"
+	log "github.com/lack-io/vine/service/logger"
 )
 
 var (

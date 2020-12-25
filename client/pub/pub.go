@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lack-io/vine"
+	"github.com/lack-io/vine/service"
 
 	example "github.com/lack-io/vine-example/server/proto/example"
 )
 
 // publishes a message
-func pub(i int, p vine.Event) {
+func pub(i int, p service.Event) {
 	msg := &example.Message{
 		Say: fmt.Sprintf("This is an async message %d", i),
 	}
@@ -24,13 +24,13 @@ func pub(i int, p vine.Event) {
 }
 
 func main() {
-	service := vine.NewService()
+	srv := service.NewService()
 
-	vine.Cmd(nil)
+	service.Cmd(nil)
 
-	service.Init()
+	srv.Init()
 
-	p := vine.NewEvent("example", service.Client())
+	p := service.NewEvent("example", srv.Client())
 
 	fmt.Println("\n--- Publisher example ---")
 

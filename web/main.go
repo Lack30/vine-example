@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/lack-io/vine/web"
+	"github.com/lack-io/vine/service/web"
 )
 
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {

@@ -15,7 +15,7 @@
 package http
 
 import (
-	"github.com/lack-io/vine/registry"
+	"github.com/lack-io/vine/service/registry"
 )
 
 type Options struct {

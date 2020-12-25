@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-import "github.com/lack-io/vine/api/proto/api.proto";
+import "github.com/lack-io/vine/proto/api/api.proto";
 
 service Example {
-  rpc Call(go.api.Request) returns(go.api.Response) {};
+  rpc Call(api.Request) returns(api.Response) {};
 }
 
 service Foo {
-  rpc Bar(go.api.Request) returns(go.api.Response) {};
+  rpc Bar(api.Request) returns(api.Response) {};
 }

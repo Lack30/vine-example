@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-import "github.com/lack-io/vine/api/proto/api.proto";
+import "github.com/lack-io/vine/proto/api/api.proto";
 
 service Form {
   // regular form
-  rpc Submit(go.api.Request) returns (go.api.Response) {};
+  rpc Submit(api.Request) returns (api.Response) {};
   // multipart form
-  rpc Multipart(go.api.Request) returns (go.api.Response) {};
+  rpc Multipart(api.Request) returns (api.Response) {};
 }

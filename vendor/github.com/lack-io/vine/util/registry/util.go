@@ -14,7 +14,7 @@
 
 package registry
 
-import "github.com/lack-io/vine/registry"
+import "github.com/lack-io/vine/service/registry"
 
 func addNodes(old, neu []*registry.Node) []*registry.Node {
 	nodes := make([]*registry.Node, len(neu))

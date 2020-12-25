@@ -20,18 +20,13 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/lack-io/vine/config/cmd"
+	"github.com/lack-io/vine/service/broker"
+	"github.com/lack-io/vine/service/config/cmd"
+	log "github.com/lack-io/vine/service/logger"
+	"github.com/lack-io/vine/service/registry"
+	"github.com/lack-io/vine/service/codec/json"
 	"github.com/nats-io/nats.go"
-
-	"github.com/lack-io/vine/broker"
-	"github.com/lack-io/vine/codec/json"
-	"github.com/lack-io/vine/log"
-	"github.com/lack-io/vine/registry"
 )
-
-func init() {
-	cmd.DefaultBrokers["nats"] = NewBroker
-}
 
 type natsBroker struct {
 	sync.Once
@@ -59,6 +54,10 @@ type publication struct {
 	t   string
 	err error
 	m   *broker.Message
+}
+
+func init() {
+	cmd.DefaultBrokers["nats"] = NewBroker
 }
 
 func (p *publication) Topic() string {

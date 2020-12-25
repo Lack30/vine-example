@@ -28,20 +28,11 @@ import (
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/etcdserver/api/v3rpc/rpctypes"
 	json "github.com/json-iterator/go"
-	"github.com/lack-io/vine/config/cmd"
+	"github.com/lack-io/vine/service/config/cmd"
+	log "github.com/lack-io/vine/service/logger"
+	"github.com/lack-io/vine/service/registry"
 	hash "github.com/mitchellh/hashstructure"
-
-	"github.com/lack-io/vine/log"
-	"github.com/lack-io/vine/registry"
 )
-
-var (
-	prefix = "/vine/registry/"
-)
-
-func init() {
-	cmd.DefaultRegistries["etcd"] = NewRegistry
-}
 
 type etcdRegistry struct {
 	client  *clientv3.Client
@@ -52,14 +43,12 @@ type etcdRegistry struct {
 	leases   map[string]clientv3.LeaseID
 }
 
-func NewRegistry(opts ...registry.Option) registry.Registry {
-	e := &etcdRegistry{
-		options:  registry.Options{},
-		register: make(map[string]uint64),
-		leases:   make(map[string]clientv3.LeaseID),
-	}
-	configure(e, opts...)
-	return e
+var (
+	prefix = "/vine/registry/"
+)
+
+func init() {
+	cmd.DefaultRegistries["etcd"] = NewRegistry
 }
 
 func configure(e *etcdRegistry, opts ...registry.Option) error {
@@ -413,4 +402,14 @@ func (e *etcdRegistry) Watch(opts ...registry.WatchOption) (registry.Watcher, er
 
 func (e *etcdRegistry) String() string {
 	return "etcd"
+}
+
+func NewRegistry(opts ...registry.Option) registry.Registry {
+	e := &etcdRegistry{
+		options:  registry.Options{},
+		register: make(map[string]uint64),
+		leases:   make(map[string]clientv3.LeaseID),
+	}
+	configure(e, opts...)
+	return e
 }
