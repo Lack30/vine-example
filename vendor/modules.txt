@@ -156,7 +156,7 @@ github.com/lack-io/cli
 ## explicit
 github.com/lack-io/plugins/broker/nats
 github.com/lack-io/plugins/registry/etcd
-# github.com/lack-io/vine v0.4.5
+# github.com/lack-io/vine v0.5.0
 ## explicit
 github.com/lack-io/vine/plugin
 github.com/lack-io/vine/proto/api

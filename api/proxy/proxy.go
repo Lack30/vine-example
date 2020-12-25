@@ -64,23 +64,24 @@ func exampleFooBar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Write([]byte("hello world"))
 	// do something
 }
 
 func main() {
 	// we're using go-web for convenience since it registers with discovery
-	service := web.NewService(
+	srv := web.NewService(
 		web.Name("go.vine.api.example"),
 	)
 
-	service.HandleFunc("/example/call", exampleCall)
-	service.HandleFunc("/example/foo/bar", exampleFooBar)
+	srv.HandleFunc("/example/call", exampleCall)
+	srv.HandleFunc("/example/foo/bar", exampleFooBar)
 
-	if err := service.Init(); err != nil {
+	if err := srv.Init(); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := service.Run(); err != nil {
+	if err := srv.Run(); err != nil {
 		log.Fatal(err)
 	}
 }
