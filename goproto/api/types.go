@@ -19,3 +19,9 @@ type Others struct {
 type IgnoreStruct struct {
 	Name string `json:"name,omitempty" protobuf:"bytes,1,opt,name=name"`
 }
+
+// +gogo:genproto=true
+type App struct {
+	Name string `json:"name" protobuf:"bytes,1,opt,name=name"`
+	Type int32  `json:"type" protobuf:"varint,2,opt,name=type"`
+}

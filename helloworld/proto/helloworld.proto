@@ -3,11 +3,13 @@ syntax = "proto3";
 package testdata;
 
 import "github.com/gogo/googleapis/google/api/annotations.proto";
+import "github.com/lack-io/vine-example/goproto/api/generated.proto";
 
 service Helloworld {
   rpc Call(HelloWorldRequest) returns (HelloWorldResponse) {
     option (google.api.http) = { post: "/api/v1/call"; body: "*"; };
   };
+  rpc MulPath(MulPathRequest) returns (MulPathResponse) {}
 }
 
 message HelloWorldRequest {
@@ -16,4 +18,12 @@ message HelloWorldRequest {
 
 message HelloWorldResponse {
   string reply = 1;
+}
+
+message MulPathRequest {
+
+}
+
+message MulPathResponse {
+  repeated github.com.lack_io.vine_example.goproto.api.App data = 1;
 }

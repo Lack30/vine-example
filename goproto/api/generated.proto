@@ -21,6 +21,13 @@ package github.com.lack_io.vine_example.goproto.api;
 option go_package = "api";
 
 // +gogo:genproto=true
+message App {
+  optional string name = 1;
+
+  optional int32 type = 2;
+}
+
+// +gogo:genproto=true
 message Others {
   optional string info1 = 1;
 }
