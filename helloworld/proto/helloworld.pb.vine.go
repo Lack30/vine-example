@@ -41,8 +41,7 @@ func NewHelloworldEndpoints() []*api.Endpoint {
 		&api.Endpoint{
 			Name:    "Helloworld.Call",
 			Path:    []string{"/api/v1/call"},
-			Method:  []string{"POST"},
-			Body:    "*",
+			Method:  []string{"GET"},
 			Handler: "rpc",
 		},
 	}
@@ -104,8 +103,7 @@ func RegisterHelloworldHandler(s server.Server, hdlr HelloworldHandler, opts ...
 	opts = append(opts, api.WithEndpoint(&api.Endpoint{
 		Name:    "Helloworld.Call",
 		Path:    []string{"/api/v1/call"},
-		Method:  []string{"POST"},
-		Body:    "*",
+		Method:  []string{"GET"},
 		Handler: "rpc",
 	}))
 	return s.Handle(s.NewHandler(&Helloworld{h}, opts...))

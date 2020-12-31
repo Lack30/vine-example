@@ -15,11 +15,12 @@ type HelloWorld struct {
 }
 
 func (t *HelloWorld) Call(ctx context.Context, req *pb.HelloWorldRequest, rsp *pb.HelloWorldResponse) error {
+	fmt.Println("called")
 	if req.Name == "" {
 		return errors.New("go.vine.client", "231", 400).
 			WithChild(10001, "stack 111")
 	}
-	rsp.Reply = "hello " + req.Name
+	rsp.Reply = "hello " + req.Name + " age " + fmt.Sprintf("%d", req.Age)
 	return nil
 }
 

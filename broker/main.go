@@ -5,55 +5,36 @@ import (
 	"time"
 
 	"github.com/lack-io/vine/service/broker"
-	"github.com/lack-io/vine/service/config/cmd"
 	log "github.com/lack-io/vine/service/logger"
 )
 
-var (
-	topic = "go.vine.topic.foo"
-)
-
-func pub() {
-	tick := time.NewTicker(time.Second)
-	i := 0
-	for _ = range tick.C {
-		msg := &broker.Message{
-			Header: map[string]string{
-				"id": fmt.Sprintf("%d", i),
-			},
-			Body: []byte(fmt.Sprintf("%d: %s", i, time.Now().String())),
-		}
-		if err := broker.Publish(topic, msg); err != nil {
-			log.Infof("[pub] failed: %v", err)
-		} else {
-			fmt.Println("[pub] pubbed message:", string(msg.Body))
-		}
-		i++
-	}
-}
-
-func sub() {
-	_, err := broker.Subscribe(topic, func(p broker.Event) error {
-		fmt.Println("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
-		return nil
-	})
-	if err != nil {
-		fmt.Println(err)
-	}
-}
-
 func main() {
-	cmd.Init()
+	topic := "go.vine.topic.foo"
 
-	if err := broker.Init(); err != nil {
+	b := broker.NewBroker()
+
+	if err := b.Init(); err != nil {
 		log.Fatalf("Broker Init error: %v", err)
 	}
-	if err := broker.Connect(); err != nil {
+	if err := b.Connect(); err != nil {
 		log.Fatalf("Broker Connect error: %v", err)
 	}
 
-	go pub()
-	go sub()
+	go func() {
+		// receive message from broker
+		b.Subscribe(topic, func(p broker.Event) error {
+			fmt.Println("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
+			return nil
+		})
+	}()
 
-	<-time.After(time.Second * 10)
+	go func() {
+		<-time.After(time.Second * 1)
+		// publish message to broker
+		b.Publish(topic, &broker.Message{Header: map[string]string{"a": "b"}, Body: []byte("hello world")})
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	b.Disconnect()
 }

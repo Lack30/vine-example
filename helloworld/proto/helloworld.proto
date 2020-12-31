@@ -7,13 +7,14 @@ import "github.com/lack-io/vine-example/goproto/api/generated.proto";
 
 service Helloworld {
   rpc Call(HelloWorldRequest) returns (HelloWorldResponse) {
-    option (google.api.http) = { post: "/api/v1/call"; body: "*"; };
+    option (google.api.http) = { get: "/api/v1/call", body: "*"; };
   };
   rpc MulPath(MulPathRequest) returns (MulPathResponse) {}
 }
 
 message HelloWorldRequest {
   string name = 1;
+  int32 age = 2;
 }
 
 message HelloWorldResponse {
