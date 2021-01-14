@@ -3,13 +3,30 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/lack-io/vine/proto/errors"
 	"github.com/lack-io/vine/service"
+	"github.com/lack-io/vine/service/server"
+	"github.com/lack-io/vine/util/context/metadata"
 
 	"github.com/lack-io/vine-example/goproto/api"
 	pb "github.com/lack-io/vine-example/helloworld/proto"
 )
+
+func logWrapper(fn server.HandlerFunc) server.HandlerFunc {
+	return func(ctx context.Context, req server.Request, rsp interface{}) error {
+		log.Printf("[Log Wrapper] Before serving request method: %v", req.Endpoint())
+
+		m, _ := metadata.FromContext(ctx)
+		a, _ := m.Get("Authorization")
+		fmt.Println(a)
+
+		err := fn(ctx, req, rsp)
+		log.Printf("[Log Wrapper] After serving request")
+		return err
+	}
+}
 
 type HelloWorld struct {
 }
@@ -38,6 +55,7 @@ func main() {
 	srv := service.NewService(
 		service.Name("go.vine.helloworld"),
 		service.Address(":59090"),
+		service.WrapHandler(logWrapper),
 	)
 
 	srv.Init()

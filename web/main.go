@@ -1,23 +1,23 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/lack-io/vine/service/web"
 )
 
-func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, `<html><body><h1>Hello World</h1></body></html>`)
-}
-
 func main() {
 	service := web.NewService(
 		web.Name("go.vine.web.helloworld"),
 	)
 
-	service.HandleFunc("/", helloWorldHandler)
+	//service.Handle("/", http.RedirectHandler("/index.html", 301))
+	service.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		http.ServeFile(w, req, "index.html")
+	})
+	//service.HandleFunc("/", helloWorldHandler)
+	service.Handle("/assert/", http.StripPrefix("/assert/", http.FileServer(http.Dir("./static"))))
 
 	if err := service.Init(); err != nil {
 		log.Fatal(err)
