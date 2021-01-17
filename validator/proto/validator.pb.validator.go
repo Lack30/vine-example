@@ -5,9 +5,14 @@ package validator
 
 import (
 	fmt "fmt"
-	math "math"
-
 	proto "github.com/gogo/protobuf/proto"
+	math "math"
+)
+
+import (
+	errors "errors"
+	is "github.com/lack-io/vine/util/is"
+	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,14 +26,20 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-func (h *User) Validate() error {
-	return nil
+// Reference imports to suppress errors if they are not otherwise used.
+var _ is.Empty
+var _ strings.Builder
+var _ = errors.New("")
+
+func (m *Validate) Validate() error {
+	errs := make([]error, 0)
+	if is.Zero(m.Uint32) {
+		errs = append(errs, errors.New("field 'uint32' is required"))
+	}
+	return is.MargeErr(errs...)
 }
 
-func (h *Role) Validate() error {
-	return nil
-}
-
-func (h *Validate) Validate() error {
-	return nil
+func (m *Enum) Validate() error {
+	errs := make([]error, 0)
+	return is.MargeErr(errs...)
 }

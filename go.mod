@@ -7,9 +7,9 @@ require (
 	github.com/gogo/protobuf v1.3.1
 	github.com/google/uuid v1.1.2
 	github.com/lack-io/cli v1.0.2
-	github.com/lack-io/plugins v0.2.1
+	github.com/lack-io/plugins v0.2.1 // indirect
 	github.com/lack-io/vine v0.6.1
-	google.golang.org/grpc v1.34.0
+	google.golang.org/grpc v1.34.0 // indirect
 )
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.26.0

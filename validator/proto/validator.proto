@@ -1,84 +1,94 @@
 // syntax
 syntax = "proto3";
 
-// +gen:ignore
 message Validate {
   // +gen:required  字段不为空
   // +gen:omitempty 字段允许为空
   // +gen:const     字段必须为
   // +gen:default   字段为空值时的默认值
-  // +gen:in=
-  // +gen:not_in=
+  // +gen:in=[1, 2, 3]
+  // +gen:enum=["a", "s", "s"]
+  // +gen:not_in=[2.3, 3.1, 3.2]
   bytes field = 22;
-
-  // +gen:pattern=
-  // +gen:len=10
-  // +gen:min=
-  // +gen:max=
-  // +gen:prefix=
-  // +gen:suffix=
-  // +gen:contains=
-  // +gen:number
-  // +gen:email
-  // +gen:ip
-  // +gen:ipv4
-  // +gen:ipv6
-  // +gen:address
-  // +gen:crontab
-  // +gen:uuid
-  // +gen:uri
-  // +gen:address
-  string string1 = 1;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  double double = 2;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  float float = 3;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  int32 int32 = 4;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  int64 int64 = 5;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
+  //
+  //  // +gen:pattern=
+  //  // +gen:len=10
+  //  // +gen:min=
+  //  // +gen:max=
+  //  // +gen:prefix=
+  //  // +gen:suffix=
+  //  // +gen:contains=
+  //  // +gen:number
+  //  // +gen:email
+  //  // +gen:ip
+  //  // +gen:ipv4
+  //  // +gen:ipv6
+  //  // +gen:address
+  //  // +gen:crontab
+  //  // +gen:uuid
+  //  // +gen:uri
+  //  // +gen:address
+  //  string string1 = 1;
+  //
+  //  // +gen:lt=
+  //  // +gen:lte=
+  //  // +gen:eq=
+  //  // +gen:gt=
+  //  // +gen:gte=
+  //  // +gen:ne=
+  //  double double = 2;
+  //
+  //  // +gen:lt=
+  //  // +gen:lte=
+  //  // +gen:eq=
+  //  // +gen:gt=
+  //  // +gen:gte=
+  //  // +gen:ne=
+  //  float float = 3;
+  //
+  //  // +gen:lt=
+  //  // +gen:lte=
+  //  // +gen:eq=
+  //  // +gen:gt=
+  //  // +gen:gte=
+  //  // +gen:ne=
+  //  int32 int32 = 4;
+  //
+  //  // +gen:lt=
+  //  // +gen:lte=
+  //  // +gen:eq=
+  //  // +gen:gt=
+  //  // +gen:gte=
+  //  // +gen:ne=
+  //  int64 int64 = 5;
+  //
+  //  // +gen:lt=
+  //  // +gen:lte=
+  //  // +gen:eq=
+  //  // +gen:gt=
+  //  // +gen:gte=
+  // +gen:required
   fixed32 uint32 = 6;
+  //
+  //  // +gen:lt=
+  //  // +gen:lte=
+  //  // +gen:eq=
+  //  // +gen:gt=
+  //  // +gen:gte=
+  //  // +gen:ne=
+  //  fixed64 uint64 = 7;
+  //
+  //  // +gen:min=
+  //  // +gen:max=
+  //  bytes any = 8;
+}
 
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  fixed64 uint64 = 7;
+message Enum {
+  // map
+  // +map
+  map<string, string> m = 1;
 
-  // +gen:min=
-  // +gen:max=
-  bytes any = 8;
+  // slice
+  // +slice
+  repeated string list = 2;
 }
