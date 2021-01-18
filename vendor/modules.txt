@@ -163,7 +163,7 @@ github.com/lack-io/cli
 ## explicit
 github.com/lack-io/plugins/broker/nats
 github.com/lack-io/plugins/registry/etcd
-# github.com/lack-io/vine v0.7.0
+# github.com/lack-io/vine v0.7.2
 ## explicit
 github.com/lack-io/vine/client/resolver/api
 github.com/lack-io/vine/plugin

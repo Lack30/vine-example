@@ -29,6 +29,7 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type HelloWorldRequest struct {
+	// +gen:required
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Age  int32  `protobuf:"varint,2,opt,name=age,proto3" json:"age,omitempty"`
 }

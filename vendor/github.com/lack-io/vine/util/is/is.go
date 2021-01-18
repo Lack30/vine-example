@@ -112,9 +112,6 @@ func Crontab(s string) bool {
 }
 
 func MargeErr(errs ...error) error {
-	if errs == nil {
-		return nil
-	}
 	parts := make([]string, 0)
 	for _, err := range errs {
 		if err == nil {
@@ -122,5 +119,8 @@ func MargeErr(errs ...error) error {
 		}
 		parts = append(parts, err.Error())
 	}
-	return errors.New(strings.Join(parts, "\n"))
+	if len(parts) == 0 {
+		return nil
+	}
+	return errors.New(strings.Join(parts, ";"))
 }
