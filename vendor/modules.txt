@@ -38,8 +38,13 @@ github.com/emirpasic/gods/trees/binaryheap
 github.com/emirpasic/gods/utils
 # github.com/evanphx/json-patch/v5 v5.1.0
 github.com/evanphx/json-patch/v5
+# github.com/felixge/httpsnoop v1.0.1
+github.com/felixge/httpsnoop
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
+# github.com/go-acme/lego/v3 v3.9.0
+github.com/go-acme/lego/v3/acme
+github.com/go-acme/lego/v3/challenge
 # github.com/go-git/gcfg v1.5.0
 github.com/go-git/gcfg
 github.com/go-git/gcfg/scanner
@@ -124,6 +129,9 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/google/uuid v1.1.2
 ## explicit
 github.com/google/uuid
+# github.com/gorilla/mux v1.8.0
+## explicit
+github.com/gorilla/mux
 # github.com/hashicorp/hcl v1.0.0
 github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/ast
@@ -155,8 +163,9 @@ github.com/lack-io/cli
 ## explicit
 github.com/lack-io/plugins/broker/nats
 github.com/lack-io/plugins/registry/etcd
-# github.com/lack-io/vine v0.6.1
+# github.com/lack-io/vine v0.7.0
 ## explicit
+github.com/lack-io/vine/client/resolver/api
 github.com/lack-io/vine/plugin
 github.com/lack-io/vine/proto/api
 github.com/lack-io/vine/proto/auth
@@ -174,6 +183,12 @@ github.com/lack-io/vine/service/api/handler/rpc
 github.com/lack-io/vine/service/api/resolver
 github.com/lack-io/vine/service/api/resolver/vpath
 github.com/lack-io/vine/service/api/router
+github.com/lack-io/vine/service/api/router/registry
+github.com/lack-io/vine/service/api/router/util
+github.com/lack-io/vine/service/api/server
+github.com/lack-io/vine/service/api/server/acme
+github.com/lack-io/vine/service/api/server/cors
+github.com/lack-io/vine/service/api/server/http
 github.com/lack-io/vine/service/auth
 github.com/lack-io/vine/service/auth/grpc
 github.com/lack-io/vine/service/auth/jwt
@@ -229,6 +244,7 @@ github.com/lack-io/vine/service/network/transport/memory
 github.com/lack-io/vine/service/plugin
 github.com/lack-io/vine/service/registry
 github.com/lack-io/vine/service/registry/cache
+github.com/lack-io/vine/service/registry/etcd
 github.com/lack-io/vine/service/registry/grpc
 github.com/lack-io/vine/service/registry/mdns
 github.com/lack-io/vine/service/registry/memory
@@ -253,15 +269,17 @@ github.com/lack-io/vine/util/auth
 github.com/lack-io/vine/util/backoff
 github.com/lack-io/vine/util/client/buf
 github.com/lack-io/vine/util/client/pool
+github.com/lack-io/vine/util/context
 github.com/lack-io/vine/util/context/metadata
-github.com/lack-io/vine/util/ctx
 github.com/lack-io/vine/util/http
+github.com/lack-io/vine/util/is
 github.com/lack-io/vine/util/jsonpb
 github.com/lack-io/vine/util/mdns
 github.com/lack-io/vine/util/net
 github.com/lack-io/vine/util/qson
 github.com/lack-io/vine/util/registry
 github.com/lack-io/vine/util/ring
+github.com/lack-io/vine/util/sched/cron
 github.com/lack-io/vine/util/signal
 github.com/lack-io/vine/util/socket
 github.com/lack-io/vine/util/tls

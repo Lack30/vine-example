@@ -1,84 +1,17 @@
 // syntax
 syntax = "proto3";
 
-// +gen:ignore
-message Validate {
-  // +gen:required  字段不为空
-  // +gen:omitempty 字段允许为空
-  // +gen:const     字段必须为
-  // +gen:default   字段为空值时的默认值
-  // +gen:in=
-  // +gen:not_in=
-  bytes field = 22;
+message Person {
+  // +gen:min_len=4
+  // +gen:max_len=10
+  string name = 1;
 
-  // +gen:pattern=
-  // +gen:len=10
-  // +gen:min=
-  // +gen:max=
-  // +gen:prefix=
-  // +gen:suffix=
-  // +gen:contains=
-  // +gen:number
+  // +gen:required;gt=10;lt=100
+  int32 age = 2;
+
+  // +gen:required;min_bytes=3;max_bytes=4;
+  bytes any = 3;
+
   // +gen:email
-  // +gen:ip
-  // +gen:ipv4
-  // +gen:ipv6
-  // +gen:address
-  // +gen:crontab
-  // +gen:uuid
-  // +gen:uri
-  // +gen:address
-  string string1 = 1;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  double double = 2;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  float float = 3;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  int32 int32 = 4;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  int64 int64 = 5;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  fixed32 uint32 = 6;
-
-  // +gen:lt=
-  // +gen:lte=
-  // +gen:eq=
-  // +gen:gt=
-  // +gen:gte=
-  // +gen:ne=
-  fixed64 uint64 = 7;
-
-  // +gen:min=
-  // +gen:max=
-  bytes any = 8;
+  string email = 4;
 }

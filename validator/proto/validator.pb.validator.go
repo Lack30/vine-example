@@ -5,9 +5,14 @@ package validator
 
 import (
 	fmt "fmt"
-	math "math"
-
 	proto "github.com/gogo/protobuf/proto"
+	math "math"
+)
+
+import (
+	errors "errors"
+	is "github.com/lack-io/vine/util/is"
+	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,14 +26,45 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-func (h *User) Validate() error {
-	return nil
-}
+// Reference imports to suppress errors if they are not otherwise used.
+var _ is.Empty
+var _ strings.Builder
+var _ = errors.New("")
 
-func (h *Role) Validate() error {
-	return nil
-}
-
-func (h *Validate) Validate() error {
-	return nil
+func (m *Person) Validate() error {
+	errs := make([]error, 0)
+	if len(m.Name) != 0 {
+		if !(len(m.Name) <= 10) {
+			errs = append(errs, errors.New("field 'name' length must great than '10'"))
+		}
+		if !(len(m.Name) >= 4) {
+			errs = append(errs, errors.New("field 'name' length must less than '4'"))
+		}
+	}
+	if int64(m.Age) == 0 {
+		errs = append(errs, errors.New("field 'age' is required"))
+	} else {
+		if !(m.Age > 10) {
+			errs = append(errs, errors.New("field 'age' must great than '10'"))
+		}
+		if !(m.Age < 100) {
+			errs = append(errs, errors.New("field 'age' must less than '100'"))
+		}
+	}
+	if len(m.Any) == 0 {
+		errs = append(errs, errors.New("field 'any' is required"))
+	} else {
+		if !(len(m.Any) <= 3) {
+			errs = append(errs, errors.New("field 'any' length must less than '3'"))
+		}
+		if !(len(m.Any) >= 4) {
+			errs = append(errs, errors.New("field 'any' length must great than '4'"))
+		}
+	}
+	if len(m.Email) != 0 {
+		if !is.Email(m.Email) {
+			errs = append(errs, errors.New("field 'email' is not a valid email"))
+		}
+	}
+	return is.MargeErr(errs...)
 }

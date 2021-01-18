@@ -4,13 +4,8 @@
 package validator
 
 import (
-	context "context"
-	encoding_binary "encoding/binary"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	io "io"
 	math "math"
 	math_bits "math/bits"
@@ -27,62 +22,30 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type Role_Role int32
-
-const (
-	// unknown
-	Role_Unknown Role_Role = 0
-	// A
-	Role_A Role_Role = 1
-	// B
-	Role_B Role_Role = 2
-)
-
-var Role_Role_name = map[int32]string{
-	0: "Unknown",
-	1: "A",
-	2: "B",
-}
-
-var Role_Role_value = map[string]int32{
-	"Unknown": 0,
-	"A":       1,
-	"B":       2,
-}
-
-func (x Role_Role) String() string {
-	return proto.EnumName(Role_Role_name, int32(x))
-}
-
-func (Role_Role) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_223e593795caadfd, []int{1, 0}
-}
-
-// +User
-type User struct {
-	// +name
-	// +1
+type Person struct {
+	// +gen:min_len=4
+	// +gen:max_len=10
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// +age
-	// +2
+	// +gen:required;gt=10;lt=100
 	Age int32 `protobuf:"varint,2,opt,name=age,proto3" json:"age,omitempty"`
-	// +123
-	// +email
-	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	// +gen:required;min_bytes=3;max_bytes=4;
+	Any []byte `protobuf:"bytes,3,opt,name=any,proto3" json:"any,omitempty"`
+	// +gen:email
+	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
 }
 
-func (m *User) Reset()         { *m = User{} }
-func (m *User) String() string { return proto.CompactTextString(m) }
-func (*User) ProtoMessage()    {}
-func (*User) Descriptor() ([]byte, []int) {
+func (m *Person) Reset()         { *m = Person{} }
+func (m *Person) String() string { return proto.CompactTextString(m) }
+func (*Person) ProtoMessage()    {}
+func (*Person) Descriptor() ([]byte, []int) {
 	return fileDescriptor_223e593795caadfd, []int{0}
 }
-func (m *User) XXX_Unmarshal(b []byte) error {
+func (m *Person) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Person) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_User.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Person.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -92,279 +55,48 @@ func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *User) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_User.Merge(m, src)
+func (m *Person) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Person.Merge(m, src)
 }
-func (m *User) XXX_Size() int {
+func (m *Person) XXX_Size() int {
 	return m.Size()
 }
-func (m *User) XXX_DiscardUnknown() {
-	xxx_messageInfo_User.DiscardUnknown(m)
+func (m *Person) XXX_DiscardUnknown() {
+	xxx_messageInfo_Person.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_User proto.InternalMessageInfo
+var xxx_messageInfo_Person proto.InternalMessageInfo
 
-func (m *User) GetName() string {
+func (m *Person) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *User) GetAge() int32 {
+func (m *Person) GetAge() int32 {
 	if m != nil {
 		return m.Age
 	}
 	return 0
 }
 
-func (m *User) GetEmail() string {
-	if m != nil {
-		return m.Email
-	}
-	return ""
-}
-
-// +Role
-type Role struct {
-	// +role
-	Role Role_Role `protobuf:"varint,1,opt,name=role,proto3,enum=Role_Role" json:"role,omitempty"`
-	// +ip
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// +tags
-	// 中文
-	Tags map[string]string `protobuf:"bytes,3,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (m *Role) Reset()         { *m = Role{} }
-func (m *Role) String() string { return proto.CompactTextString(m) }
-func (*Role) ProtoMessage()    {}
-func (*Role) Descriptor() ([]byte, []int) {
-	return fileDescriptor_223e593795caadfd, []int{1}
-}
-func (m *Role) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Role) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Role.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Role) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Role.Merge(m, src)
-}
-func (m *Role) XXX_Size() int {
-	return m.Size()
-}
-func (m *Role) XXX_DiscardUnknown() {
-	xxx_messageInfo_Role.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Role proto.InternalMessageInfo
-
-func (m *Role) GetRole() Role_Role {
-	if m != nil {
-		return m.Role
-	}
-	return Role_Unknown
-}
-
-func (m *Role) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *Role) GetTags() map[string]string {
-	if m != nil {
-		return m.Tags
-	}
-	return nil
-}
-
-type Validate struct {
-	// +gen:required  字段不为空
-	// +gen:omitempty 字段允许为空
-	// +gen:const     字段必须为
-	// +gen:default   字段为空值时的默认值
-	// +gen:in=
-	// +gen:not_in=
-	Field []byte `protobuf:"bytes,22,opt,name=field,proto3" json:"field,omitempty"`
-	// +gen:pattern=
-	// +gen:len=10
-	// +gen:min=
-	// +gen:max=
-	// +gen:prefix=
-	// +gen:suffix=
-	// +gen:contains=
-	// +gen:number
-	// +gen:email
-	// +gen:ip
-	// +gen:ipv4
-	// +gen:ipv6
-	// +gen:address
-	// +gen:crontab
-	// +gen:uuid
-	// +gen:uri
-	// +gen:address
-	String1 string `protobuf:"bytes,1,opt,name=string1,proto3" json:"string1,omitempty"`
-	// +gen:lt=
-	// +gen:lte=
-	// +gen:eq=
-	// +gen:gt=
-	// +gen:gte=
-	// +gen:ne=
-	Double float64 `protobuf:"fixed64,2,opt,name=double,proto3" json:"double,omitempty"`
-	// +gen:lt=
-	// +gen:lte=
-	// +gen:eq=
-	// +gen:gt=
-	// +gen:gte=
-	// +gen:ne=
-	Float float32 `protobuf:"fixed32,3,opt,name=float,proto3" json:"float,omitempty"`
-	// +gen:lt=
-	// +gen:lte=
-	// +gen:eq=
-	// +gen:gt=
-	// +gen:gte=
-	// +gen:ne=
-	Int32 int32 `protobuf:"varint,4,opt,name=int32,proto3" json:"int32,omitempty"`
-	// +gen:lt=
-	// +gen:lte=
-	// +gen:eq=
-	// +gen:gt=
-	// +gen:gte=
-	// +gen:ne=
-	Int64 int64 `protobuf:"varint,5,opt,name=int64,proto3" json:"int64,omitempty"`
-	// +gen:lt=
-	// +gen:lte=
-	// +gen:eq=
-	// +gen:gt=
-	// +gen:gte=
-	// +gen:ne=
-	Uint32 uint32 `protobuf:"fixed32,6,opt,name=uint32,proto3" json:"uint32,omitempty"`
-	// +gen:lt=
-	// +gen:lte=
-	// +gen:eq=
-	// +gen:gt=
-	// +gen:gte=
-	// +gen:ne=
-	Uint64 uint64 `protobuf:"fixed64,7,opt,name=uint64,proto3" json:"uint64,omitempty"`
-	// +gen:min=
-	// +gen:max=
-	Any []byte `protobuf:"bytes,8,opt,name=any,proto3" json:"any,omitempty"`
-}
-
-func (m *Validate) Reset()         { *m = Validate{} }
-func (m *Validate) String() string { return proto.CompactTextString(m) }
-func (*Validate) ProtoMessage()    {}
-func (*Validate) Descriptor() ([]byte, []int) {
-	return fileDescriptor_223e593795caadfd, []int{2}
-}
-func (m *Validate) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Validate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Validate.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Validate) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Validate.Merge(m, src)
-}
-func (m *Validate) XXX_Size() int {
-	return m.Size()
-}
-func (m *Validate) XXX_DiscardUnknown() {
-	xxx_messageInfo_Validate.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Validate proto.InternalMessageInfo
-
-func (m *Validate) GetField() []byte {
-	if m != nil {
-		return m.Field
-	}
-	return nil
-}
-
-func (m *Validate) GetString1() string {
-	if m != nil {
-		return m.String1
-	}
-	return ""
-}
-
-func (m *Validate) GetDouble() float64 {
-	if m != nil {
-		return m.Double
-	}
-	return 0
-}
-
-func (m *Validate) GetFloat() float32 {
-	if m != nil {
-		return m.Float
-	}
-	return 0
-}
-
-func (m *Validate) GetInt32() int32 {
-	if m != nil {
-		return m.Int32
-	}
-	return 0
-}
-
-func (m *Validate) GetInt64() int64 {
-	if m != nil {
-		return m.Int64
-	}
-	return 0
-}
-
-func (m *Validate) GetUint32() uint32 {
-	if m != nil {
-		return m.Uint32
-	}
-	return 0
-}
-
-func (m *Validate) GetUint64() uint64 {
-	if m != nil {
-		return m.Uint64
-	}
-	return 0
-}
-
-func (m *Validate) GetAny() []byte {
+func (m *Person) GetAny() []byte {
 	if m != nil {
 		return m.Any
 	}
 	return nil
 }
 
+func (m *Person) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
 func init() {
-	proto.RegisterEnum("Role_Role", Role_Role_name, Role_Role_value)
-	proto.RegisterType((*User)(nil), "User")
-	proto.RegisterType((*Role)(nil), "Role")
-	proto.RegisterMapType((map[string]string)(nil), "Role.TagsEntry")
-	proto.RegisterType((*Validate)(nil), "Validate")
+	proto.RegisterType((*Person)(nil), "Person")
 }
 
 func init() {
@@ -372,159 +104,22 @@ func init() {
 }
 
 var fileDescriptor_223e593795caadfd = []byte{
-	// 435 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x92, 0xcf, 0x8e, 0xd3, 0x30,
-	0x10, 0xc6, 0x33, 0xf9, 0xd3, 0xee, 0xce, 0x22, 0xa8, 0x0c, 0x5a, 0x99, 0x95, 0x88, 0x42, 0xb8,
-	0xe4, 0xb2, 0xad, 0xe8, 0xae, 0x96, 0x3f, 0x17, 0x44, 0x25, 0xc4, 0x85, 0x93, 0x61, 0xb9, 0xbb,
-	0xad, 0x09, 0x56, 0x5d, 0x7b, 0x95, 0xb8, 0x85, 0xbe, 0x01, 0x47, 0xde, 0x87, 0x17, 0xe0, 0xb8,
-	0x27, 0xc4, 0x11, 0xb5, 0x37, 0x9e, 0x02, 0xd9, 0x4e, 0x17, 0xc4, 0x25, 0x99, 0xdf, 0x17, 0x67,
-	0xe6, 0xcb, 0x37, 0xc1, 0x17, 0xb5, 0xb4, 0x1f, 0x57, 0xd3, 0xe1, 0xcc, 0x2c, 0x47, 0x8a, 0xcf,
-	0x16, 0xa7, 0xd2, 0x8c, 0xd6, 0x52, 0x8b, 0x53, 0xf1, 0x99, 0x2f, 0xaf, 0x94, 0x18, 0xad, 0xb9,
-	0x92, 0x73, 0x6e, 0x4d, 0x33, 0xba, 0x6a, 0x8c, 0x35, 0x7f, 0x79, 0xe8, 0xb9, 0x9c, 0x60, 0x7a,
-	0xd9, 0x8a, 0x86, 0x10, 0x4c, 0x35, 0x5f, 0x0a, 0x0a, 0x05, 0x54, 0x87, 0xcc, 0xd7, 0x64, 0x80,
-	0x09, 0xaf, 0x05, 0x8d, 0x0b, 0xa8, 0x32, 0xe6, 0x4a, 0x72, 0x0f, 0x33, 0xb1, 0xe4, 0x52, 0xd1,
-	0xc4, 0x1f, 0x0b, 0x50, 0x7e, 0x03, 0x4c, 0x99, 0x51, 0x82, 0xe4, 0x98, 0x36, 0x46, 0x85, 0x26,
-	0xb7, 0xc7, 0x38, 0x74, 0xa2, 0xbf, 0x30, 0xaf, 0xdf, 0x0c, 0x89, 0xff, 0x19, 0xf2, 0x08, 0x53,
-	0xcb, 0xeb, 0x96, 0x26, 0x45, 0x52, 0x1d, 0x8d, 0xef, 0x84, 0x77, 0xde, 0xf1, 0xba, 0x7d, 0xa5,
-	0x6d, 0xb3, 0x61, 0xfe, 0xe1, 0xc9, 0x13, 0x3c, 0xbc, 0x91, 0x9c, 0xad, 0x85, 0xd8, 0x74, 0x4e,
-	0x5d, 0xe9, 0x6c, 0xad, 0xb9, 0x5a, 0xed, 0x1b, 0x07, 0x78, 0x1e, 0x3f, 0x85, 0xf2, 0x61, 0xe7,
-	0xec, 0x08, 0xfb, 0x97, 0x7a, 0xa1, 0xcd, 0x27, 0x3d, 0x88, 0x48, 0x86, 0xf0, 0x72, 0x00, 0xee,
-	0x36, 0x19, 0xc4, 0xe5, 0x0f, 0xc0, 0x83, 0xf7, 0x21, 0x15, 0xff, 0x81, 0x1f, 0xa4, 0x50, 0x73,
-	0x7a, 0x5c, 0x40, 0x75, 0x8b, 0x05, 0x20, 0x14, 0xfb, 0xad, 0x6d, 0xa4, 0xae, 0x1f, 0x77, 0x53,
-	0xf7, 0x48, 0x8e, 0xb1, 0x37, 0x37, 0xab, 0xa9, 0x0a, 0xa3, 0x81, 0x75, 0xe4, 0xfb, 0x28, 0xc3,
-	0xad, 0x0f, 0x2a, 0x66, 0x01, 0x9c, 0x2a, 0xb5, 0x3d, 0x1b, 0xd3, 0xd4, 0x47, 0x1a, 0xa0, 0x53,
-	0x2f, 0xce, 0x69, 0x56, 0x40, 0x95, 0xb0, 0x00, 0xae, 0xf3, 0x2a, 0x1c, 0xee, 0x15, 0x50, 0xf5,
-	0x59, 0x47, 0x7b, 0xfd, 0xe2, 0x9c, 0xf6, 0x0b, 0xa8, 0x7a, 0xac, 0x23, 0xbf, 0x2c, 0xbd, 0xa1,
-	0x07, 0xde, 0xb7, 0x2b, 0xc7, 0xcf, 0xb0, 0xff, 0x56, 0x34, 0x6b, 0x39, 0x13, 0xe4, 0x2e, 0x26,
-	0xaf, 0x85, 0x25, 0xd9, 0xd0, 0xed, 0xfa, 0x24, 0xf3, 0x21, 0x93, 0xfb, 0x98, 0xbe, 0x91, 0xed,
-	0x7f, 0x6a, 0x99, 0x7c, 0x89, 0x61, 0xf2, 0xe0, 0xfb, 0x36, 0x87, 0xeb, 0x6d, 0x0e, 0xbf, 0xb6,
-	0x39, 0x7c, 0xdd, 0xe5, 0xd1, 0xf5, 0x2e, 0x8f, 0x7e, 0xee, 0xf2, 0x08, 0xa3, 0xdf, 0x71, 0x34,
-	0xed, 0xf9, 0x7f, 0xe7, 0xec, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x78, 0x45, 0xe9, 0x5f, 0x7e,
-	0x02, 0x00, 0x00,
+	// 180 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xb2, 0x4f, 0xcf, 0x2c, 0xc9,
+	0x28, 0x4d, 0xd2, 0x4b, 0xce, 0xcf, 0xd5, 0xcf, 0x49, 0x4c, 0xce, 0xd6, 0xcd, 0xcc, 0xd7, 0x2f,
+	0xcb, 0xcc, 0x4b, 0xd5, 0x4d, 0xad, 0x48, 0xcc, 0x2d, 0xc8, 0x49, 0xd5, 0x2f, 0x4b, 0xcc, 0xc9,
+	0x4c, 0x49, 0x2c, 0xc9, 0x2f, 0xd2, 0x2f, 0x28, 0xca, 0x2f, 0xc9, 0x47, 0xf0, 0xf5, 0xc0, 0x7c,
+	0xa5, 0x30, 0x2e, 0xb6, 0x80, 0xd4, 0xa2, 0xe2, 0xfc, 0x3c, 0x21, 0x21, 0x2e, 0x96, 0xbc, 0xc4,
+	0xdc, 0x54, 0x09, 0x46, 0x05, 0x46, 0x0d, 0xce, 0x20, 0x30, 0x5b, 0x48, 0x80, 0x8b, 0x39, 0x31,
+	0x3d, 0x55, 0x82, 0x49, 0x81, 0x51, 0x83, 0x35, 0x08, 0xc4, 0x04, 0x8b, 0xe4, 0x55, 0x4a, 0x30,
+	0x2b, 0x30, 0x6a, 0xf0, 0x04, 0x81, 0x98, 0x42, 0x22, 0x5c, 0xac, 0xa9, 0xb9, 0x89, 0x99, 0x39,
+	0x12, 0x2c, 0x60, 0x8d, 0x10, 0x8e, 0x93, 0xc4, 0x89, 0x47, 0x72, 0x8c, 0x17, 0x1e, 0xc9, 0x31,
+	0x3e, 0x78, 0x24, 0xc7, 0x38, 0xe1, 0xb1, 0x1c, 0xc3, 0x85, 0xc7, 0x72, 0x0c, 0x37, 0x1e, 0xcb,
+	0x31, 0x24, 0xb1, 0x81, 0x2d, 0x36, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0xde, 0x40, 0xff, 0xc4,
+	0xbb, 0x00, 0x00, 0x00,
 }
 
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
-
-// ServiceClient is the client API for Service service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type ServiceClient interface {
-	// +rpc get
-	Get(ctx context.Context, in *User, opts ...grpc.CallOption) (*Role, error)
-	// +rpc list
-	List(ctx context.Context, in *User, opts ...grpc.CallOption) (*Role, error)
-}
-
-type serviceClient struct {
-	cc *grpc.ClientConn
-}
-
-func NewServiceClient(cc *grpc.ClientConn) ServiceClient {
-	return &serviceClient{cc}
-}
-
-func (c *serviceClient) Get(ctx context.Context, in *User, opts ...grpc.CallOption) (*Role, error) {
-	out := new(Role)
-	err := c.cc.Invoke(ctx, "/Service/Get", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Deprecated: Do not use.
-func (c *serviceClient) List(ctx context.Context, in *User, opts ...grpc.CallOption) (*Role, error) {
-	out := new(Role)
-	err := c.cc.Invoke(ctx, "/Service/List", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ServiceServer is the server API for Service service.
-type ServiceServer interface {
-	// +rpc get
-	Get(context.Context, *User) (*Role, error)
-	// +rpc list
-	List(context.Context, *User) (*Role, error)
-}
-
-// UnimplementedServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedServiceServer struct {
-}
-
-func (*UnimplementedServiceServer) Get(ctx context.Context, req *User) (*Role, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
-}
-func (*UnimplementedServiceServer) List(ctx context.Context, req *User) (*Role, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
-}
-
-func RegisterServiceServer(s *grpc.Server, srv ServiceServer) {
-	s.RegisterService(&_Service_serviceDesc, srv)
-}
-
-func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ServiceServer).Get(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/Service/Get",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).Get(ctx, req.(*User))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Service_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ServiceServer).List(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/Service/List",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).List(ctx, req.(*User))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _Service_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "Service",
-	HandlerType: (*ServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Get",
-			Handler:    _Service_Get_Handler,
-		},
-		{
-			MethodName: "List",
-			Handler:    _Service_List_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "github.com/lack-io/vine-example/validator/proto/validator.proto",
-}
-
-func (m *User) Marshal() (dAtA []byte, err error) {
+func (m *Person) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -534,12 +129,12 @@ func (m *User) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *User) MarshalTo(dAtA []byte) (int, error) {
+func (m *Person) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *User) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *Person) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -548,6 +143,13 @@ func (m *User) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.Email)
 		copy(dAtA[i:], m.Email)
 		i = encodeVarintValidator(dAtA, i, uint64(len(m.Email)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Any) > 0 {
+		i -= len(m.Any)
+		copy(dAtA[i:], m.Any)
+		i = encodeVarintValidator(dAtA, i, uint64(len(m.Any)))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -566,140 +168,6 @@ func (m *User) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *Role) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Role) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Role) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Tags) > 0 {
-		for k := range m.Tags {
-			v := m.Tags[k]
-			baseI := i
-			i -= len(v)
-			copy(dAtA[i:], v)
-			i = encodeVarintValidator(dAtA, i, uint64(len(v)))
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintValidator(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintValidator(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.Name) > 0 {
-		i -= len(m.Name)
-		copy(dAtA[i:], m.Name)
-		i = encodeVarintValidator(dAtA, i, uint64(len(m.Name)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if m.Role != 0 {
-		i = encodeVarintValidator(dAtA, i, uint64(m.Role))
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *Validate) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Validate) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Validate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Field) > 0 {
-		i -= len(m.Field)
-		copy(dAtA[i:], m.Field)
-		i = encodeVarintValidator(dAtA, i, uint64(len(m.Field)))
-		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0xb2
-	}
-	if len(m.Any) > 0 {
-		i -= len(m.Any)
-		copy(dAtA[i:], m.Any)
-		i = encodeVarintValidator(dAtA, i, uint64(len(m.Any)))
-		i--
-		dAtA[i] = 0x42
-	}
-	if m.Uint64 != 0 {
-		i -= 8
-		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(m.Uint64))
-		i--
-		dAtA[i] = 0x39
-	}
-	if m.Uint32 != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(m.Uint32))
-		i--
-		dAtA[i] = 0x35
-	}
-	if m.Int64 != 0 {
-		i = encodeVarintValidator(dAtA, i, uint64(m.Int64))
-		i--
-		dAtA[i] = 0x28
-	}
-	if m.Int32 != 0 {
-		i = encodeVarintValidator(dAtA, i, uint64(m.Int32))
-		i--
-		dAtA[i] = 0x20
-	}
-	if m.Float != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.Float))))
-		i--
-		dAtA[i] = 0x1d
-	}
-	if m.Double != 0 {
-		i -= 8
-		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Double))))
-		i--
-		dAtA[i] = 0x11
-	}
-	if len(m.String1) > 0 {
-		i -= len(m.String1)
-		copy(dAtA[i:], m.String1)
-		i = encodeVarintValidator(dAtA, i, uint64(len(m.String1)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func encodeVarintValidator(dAtA []byte, offset int, v uint64) int {
 	offset -= sovValidator(v)
 	base := offset
@@ -711,7 +179,7 @@ func encodeVarintValidator(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *User) Size() (n int) {
+func (m *Person) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -724,72 +192,13 @@ func (m *User) Size() (n int) {
 	if m.Age != 0 {
 		n += 1 + sovValidator(uint64(m.Age))
 	}
-	l = len(m.Email)
-	if l > 0 {
-		n += 1 + l + sovValidator(uint64(l))
-	}
-	return n
-}
-
-func (m *Role) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Role != 0 {
-		n += 1 + sovValidator(uint64(m.Role))
-	}
-	l = len(m.Name)
-	if l > 0 {
-		n += 1 + l + sovValidator(uint64(l))
-	}
-	if len(m.Tags) > 0 {
-		for k, v := range m.Tags {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovValidator(uint64(len(k))) + 1 + len(v) + sovValidator(uint64(len(v)))
-			n += mapEntrySize + 1 + sovValidator(uint64(mapEntrySize))
-		}
-	}
-	return n
-}
-
-func (m *Validate) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.String1)
-	if l > 0 {
-		n += 1 + l + sovValidator(uint64(l))
-	}
-	if m.Double != 0 {
-		n += 9
-	}
-	if m.Float != 0 {
-		n += 5
-	}
-	if m.Int32 != 0 {
-		n += 1 + sovValidator(uint64(m.Int32))
-	}
-	if m.Int64 != 0 {
-		n += 1 + sovValidator(uint64(m.Int64))
-	}
-	if m.Uint32 != 0 {
-		n += 5
-	}
-	if m.Uint64 != 0 {
-		n += 9
-	}
 	l = len(m.Any)
 	if l > 0 {
 		n += 1 + l + sovValidator(uint64(l))
 	}
-	l = len(m.Field)
+	l = len(m.Email)
 	if l > 0 {
-		n += 2 + l + sovValidator(uint64(l))
+		n += 1 + l + sovValidator(uint64(l))
 	}
 	return n
 }
@@ -800,7 +209,7 @@ func sovValidator(x uint64) (n int) {
 func sozValidator(x uint64) (n int) {
 	return sovValidator(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *User) Unmarshal(dAtA []byte) error {
+func (m *Person) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -823,10 +232,10 @@ func (m *User) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: User: wiretype end group for non-group")
+			return fmt.Errorf("proto: Person: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: User: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Person: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -882,434 +291,6 @@ func (m *User) Unmarshal(dAtA []byte) error {
 			}
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Email", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthValidator
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Email = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipValidator(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Role) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowValidator
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Role: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Role: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Role", wireType)
-			}
-			m.Role = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Role |= Role_Role(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthValidator
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Name = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Tags", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthValidator
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Tags == nil {
-				m.Tags = make(map[string]string)
-			}
-			var mapkey string
-			var mapvalue string
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowValidator
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowValidator
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthValidator
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthValidator
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowValidator
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
-						return ErrInvalidLengthValidator
-					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
-						return ErrInvalidLengthValidator
-					}
-					if postStringIndexmapvalue > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipValidator(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if skippy < 0 {
-						return ErrInvalidLengthValidator
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Tags[mapkey] = mapvalue
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipValidator(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Validate) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowValidator
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Validate: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Validate: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field String1", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthValidator
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthValidator
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.String1 = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Double", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
-			iNdEx += 8
-			m.Double = float64(math.Float64frombits(v))
-		case 3:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Float", wireType)
-			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.Float = float32(math.Float32frombits(v))
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Int32", wireType)
-			}
-			m.Int32 = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Int32 |= int32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Int64", wireType)
-			}
-			m.Int64 = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowValidator
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Int64 |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 6:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Uint32", wireType)
-			}
-			m.Uint32 = 0
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Uint32 = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-		case 7:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Uint64", wireType)
-			}
-			m.Uint64 = 0
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Uint64 = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
-			iNdEx += 8
-		case 8:
-			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Any", wireType)
 			}
 			var byteLen int
@@ -1342,11 +323,11 @@ func (m *Validate) Unmarshal(dAtA []byte) error {
 				m.Any = []byte{}
 			}
 			iNdEx = postIndex
-		case 22:
+		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Field", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Email", wireType)
 			}
-			var byteLen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowValidator
@@ -1356,25 +337,23 @@ func (m *Validate) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthValidator
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthValidator
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Field = append(m.Field[:0], dAtA[iNdEx:postIndex]...)
-			if m.Field == nil {
-				m.Field = []byte{}
-			}
+			m.Email = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
