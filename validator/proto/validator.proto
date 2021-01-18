@@ -1,9 +1,12 @@
 // syntax
 syntax = "proto3";
 
+import "github.com/lack-io/vine-example/goproto/api/generated.proto";
+
 message Person {
   // +gen:min_len=4
   // +gen:max_len=10
+  // +gen:pattern=`\d+\;`
   string name = 1;
 
   // +gen:required;gt=10;lt=100
@@ -14,4 +17,15 @@ message Person {
 
   // +gen:email
   string email = 4;
+
+  // +gen:required;min_len=3;max_len=5
+  repeated int32 list = 5;
+
+  // +gen:required
+  Sub sub = 6;
+}
+
+message Sub {
+  // +gen:required
+  string name = 1;
 }

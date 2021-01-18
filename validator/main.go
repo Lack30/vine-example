@@ -11,6 +11,5 @@ func main() {
 	p.Age = 1
 	p.Email = "11"
  	err := p.Validate()
- 	log.Printf("11\n")
  	log.Printf("%v\n", err)
 }

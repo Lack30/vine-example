@@ -6,6 +6,7 @@ package validator
 import (
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/lack-io/vine-example/goproto/api"
 	math "math"
 )
 
@@ -34,11 +35,14 @@ var _ = errors.New("")
 func (m *Person) Validate() error {
 	errs := make([]error, 0)
 	if len(m.Name) != 0 {
-		if !(len(m.Name) <= 10) {
-			errs = append(errs, errors.New("field 'name' length must great than '10'"))
+		if !is.Re(`\d+\;`, m.Name) {
+			errs = append(errs, errors.New(`field 'name' is not a valid pattern '\d+\;'`))
 		}
 		if !(len(m.Name) >= 4) {
 			errs = append(errs, errors.New("field 'name' length must less than '4'"))
+		}
+		if !(len(m.Name) <= 10) {
+			errs = append(errs, errors.New("field 'name' length must great than '10'"))
 		}
 	}
 	if int64(m.Age) == 0 {
@@ -65,6 +69,29 @@ func (m *Person) Validate() error {
 		if !is.Email(m.Email) {
 			errs = append(errs, errors.New("field 'email' is not a valid email"))
 		}
+	}
+	if len(m.List) == 0 {
+		errs = append(errs, errors.New("field 'list' is required"))
+	} else {
+		if !(len(m.List) <= 3) {
+			errs = append(errs, errors.New("field 'list' length must less than '3'"))
+		}
+		if !(len(m.List) >= 5) {
+			errs = append(errs, errors.New("field 'list' length must great than '5'"))
+		}
+	}
+	if m.Sub == nil {
+		errs = append(errs, errors.New("field 'sub' is required"))
+	} else {
+		errs = append(errs, m.Sub.Validate())
+	}
+	return is.MargeErr(errs...)
+}
+
+func (m *Sub) Validate() error {
+	errs := make([]error, 0)
+	if len(m.Name) == 0 {
+		errs = append(errs, errors.New("field 'name' is required"))
 	}
 	return is.MargeErr(errs...)
 }
