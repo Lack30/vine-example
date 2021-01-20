@@ -5,7 +5,6 @@ package testdata
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/googleapis/google/api"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/lack-io/vine-example/goproto/api"
 	math "math"
@@ -42,6 +41,7 @@ func NewHelloworldEndpoints() []*api.Endpoint {
 			Name:    "Helloworld.Call",
 			Path:    []string{"/api/v1/call"},
 			Method:  []string{"GET"},
+			Body:    "*",
 			Handler: "rpc",
 		},
 	}
@@ -49,6 +49,8 @@ func NewHelloworldEndpoints() []*api.Endpoint {
 
 // Client API for Helloworld service
 type HelloworldService interface {
+	// +gen:get=/api/v1/call
+	// +gen:body=*
 	Call(ctx context.Context, in *HelloWorldRequest, opts ...client.CallOption) (*HelloWorldResponse, error)
 	MulPath(ctx context.Context, in *MulPathRequest, opts ...client.CallOption) (*MulPathResponse, error)
 }
@@ -87,6 +89,8 @@ func (c *helloworldService) MulPath(ctx context.Context, in *MulPathRequest, opt
 
 // Server API for Helloworld service
 type HelloworldHandler interface {
+	// +gen:get=/api/v1/call
+	// +gen:body=*
 	Call(context.Context, *HelloWorldRequest, *HelloWorldResponse) error
 	MulPath(context.Context, *MulPathRequest, *MulPathResponse) error
 }
@@ -104,6 +108,7 @@ func RegisterHelloworldHandler(s server.Server, hdlr HelloworldHandler, opts ...
 		Name:    "Helloworld.Call",
 		Path:    []string{"/api/v1/call"},
 		Method:  []string{"GET"},
+		Body:    "*",
 		Handler: "rpc",
 	}))
 	return s.Handle(s.NewHandler(&Helloworld{h}, opts...))
