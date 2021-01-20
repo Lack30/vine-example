@@ -12,6 +12,7 @@ service Helloworld {
 }
 
 message HelloWorldRequest {
+  // +gen:required
   string name = 1;
   int32 age = 2;
 }
