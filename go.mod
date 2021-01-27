@@ -8,7 +8,7 @@ require (
 	github.com/google/uuid v1.1.5
 	github.com/gorilla/mux v1.8.0
 	github.com/lack-io/cli v1.0.2
-	github.com/lack-io/plugins v0.2.1
+	github.com/lack-io/plugins v0.2.5
 	github.com/lack-io/vine v0.9.4
 	google.golang.org/grpc v1.35.0
 )
