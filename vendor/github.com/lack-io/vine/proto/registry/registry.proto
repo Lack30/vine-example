@@ -11,7 +11,6 @@ message Service {
   repeated Endpoint endpoints = 4;
   repeated Node nodes = 5;
   Options options = 6;
-
   repeated OpenAPI apis = 7;
 }
 
@@ -73,10 +72,15 @@ message OpenAPI {
   string openapi = 1;
   OpenAPIInfo info = 2;
   OpenAPIExternalDocs externalDocs = 3;
-  repeated string servers = 4;
+  repeated OpenAPIServer servers = 4;
   repeated OpenAPITag tags = 5;
   map<string, OpenAPIPath> paths = 6;
   OpenAPIComponents components = 7;
+}
+
+message OpenAPIServer {
+  string url = 1;
+  string Description = 2;
 }
 
 message OpenAPIInfo {
@@ -110,28 +114,29 @@ message OpenAPIExternalDocs {
 }
 
 message OpenAPIPath {
-  OpenAPIPath get = 1;
-  OpenAPIPath post = 2;
-  OpenAPIPath put = 3;
-  OpenAPIPath patch = 4;
-  OpenAPIPath delete = 5;
+  OpenAPIPathDocs get = 1;
+  OpenAPIPathDocs post = 2;
+  OpenAPIPathDocs put = 3;
+  OpenAPIPathDocs patch = 4;
+  OpenAPIPathDocs delete = 5;
 }
 
 message OpenAPIPathDocs {
   repeated string tags = 1;
   string summary = 2;
-  repeated PathSecurity security = 3;
-  string description = 4;
-  string operationId = 5;
-  bool deprecated = 6;
+  string description = 3;
+  string operationId = 4;
+  bool deprecated = 5;
+  PathRequestBody requestBody = 6;
   repeated PathParameters parameters = 7;
   map<string, PathResponse> responses = 8;
+  repeated PathSecurity security = 9;
 }
 
 message PathSecurity {
-  repeated string basicAuth = 1;
+  repeated string basic = 1;
   repeated string apiKeys = 2;
-  repeated string bearerAuth = 3;
+  repeated string bearer = 3;
 }
 
 message PathParameters {
@@ -166,16 +171,15 @@ message ApplicationContent {
 // PathResponse is swagger path response
 message PathResponse {
   string description = 1;
-  ApplicationContent content = 2;
+  PathRequestBodyContent content = 2;
 }
 
 message OpenAPIComponents {
-  map<string, PathResponse> responses = 1;
-  map<string, Schema> schemas = 2;
-  SecuritySchemas securitySchemas = 3;
+  SecuritySchemes securitySchemes = 1;
+  map<string, Model> schemas = 2;
 }
 
-message SecuritySchemas {
+message SecuritySchemes {
   BasicSecurity basic = 1;
   APIKeysSecurity apiKeys = 2;
   BearerSecurity bearer = 3;
@@ -185,7 +189,7 @@ message SecuritySchemas {
 message BasicSecurity {
   // http, apiKey, oauth, openIdConnect
   string type = 1;
-  string schema = 2;
+  string scheme = 2;
 }
 
 // APIKeysSecurity is swagger API keys Authorization security (https://swagger.io/docs/specification/authentication/api-keys/)
@@ -200,7 +204,7 @@ message APIKeysSecurity {
 message BearerSecurity {
   // http
   string type = 1;
-  string schema = 2;
+  string scheme = 2;
   // JWT
   string bearerFormat = 3;
 }
@@ -236,7 +240,9 @@ message Schema {
   bool exclusiveMaximum = 34;
 
   repeated string enum = 41;
-  repeated Schema items = 42;
+  Schema items = 42;
 
   repeated PathParameters parameters = 51;
+
+  Schema additionalProperties = 60;
 }

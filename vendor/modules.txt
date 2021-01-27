@@ -36,7 +36,7 @@ github.com/emirpasic/gods/lists/arraylist
 github.com/emirpasic/gods/trees
 github.com/emirpasic/gods/trees/binaryheap
 github.com/emirpasic/gods/utils
-# github.com/evanphx/json-patch/v5 v5.1.0
+# github.com/evanphx/json-patch/v5 v5.2.0
 github.com/evanphx/json-patch/v5
 # github.com/felixge/httpsnoop v1.0.1
 github.com/felixge/httpsnoop
@@ -112,7 +112,7 @@ github.com/gobwas/ws/wsutil
 # github.com/gogo/googleapis v1.4.0
 ## explicit
 github.com/gogo/googleapis/google/api
-# github.com/gogo/protobuf v1.3.1
+# github.com/gogo/protobuf v1.3.2
 ## explicit
 github.com/gogo/protobuf/gogoproto
 github.com/gogo/protobuf/proto
@@ -126,7 +126,7 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/google/uuid v1.1.2
+# github.com/google/uuid v1.1.5
 ## explicit
 github.com/google/uuid
 # github.com/gorilla/mux v1.8.0
@@ -163,7 +163,7 @@ github.com/lack-io/cli
 ## explicit
 github.com/lack-io/plugins/broker/nats
 github.com/lack-io/plugins/registry/etcd
-# github.com/lack-io/vine v0.8.2
+# github.com/lack-io/vine v0.9.3
 ## explicit
 github.com/lack-io/vine/client/resolver/api
 github.com/lack-io/vine/plugin
@@ -332,7 +332,7 @@ go.uber.org/zap/internal/bufferpool
 go.uber.org/zap/internal/color
 go.uber.org/zap/internal/exit
 go.uber.org/zap/zapcore
-# golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+# golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/cast5
 golang.org/x/crypto/chacha20
@@ -351,7 +351,7 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/net v0.0.0-20201202161906-c7110b5ffcbb
+# golang.org/x/net v0.0.0-20210119194325-5f4716e94777
 golang.org/x/net/bpf
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
@@ -368,7 +368,7 @@ golang.org/x/net/ipv6
 golang.org/x/net/netutil
 golang.org/x/net/proxy
 golang.org/x/net/trace
-# golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
+# golang.org/x/sys v0.0.0-20210119212857-b64e53b001e4
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
@@ -381,7 +381,7 @@ golang.org/x/text/unicode/norm
 # google.golang.org/genproto v0.0.0-20200305110556-506484158171
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.34.0 => google.golang.org/grpc v1.26.0
+# google.golang.org/grpc v1.35.0 => google.golang.org/grpc v1.26.0
 ## explicit
 google.golang.org/grpc
 google.golang.org/grpc/attributes
@@ -459,6 +459,6 @@ gopkg.in/fsnotify.v1
 gopkg.in/tomb.v1
 # gopkg.in/warnings.v0 v0.1.2
 gopkg.in/warnings.v0
-# gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
+# gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 gopkg.in/yaml.v3
 # google.golang.org/grpc => google.golang.org/grpc v1.26.0

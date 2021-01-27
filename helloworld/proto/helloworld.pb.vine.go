@@ -12,6 +12,7 @@ import (
 
 import (
 	context "context"
+	registry "github.com/lack-io/vine/proto/registry"
 	api "github.com/lack-io/vine/service/api"
 	client "github.com/lack-io/vine/service/client"
 	server "github.com/lack-io/vine/service/server"
@@ -33,8 +34,9 @@ var _ api.Endpoint
 var _ context.Context
 var _ client.Option
 var _ server.Option
+var _ registry.OpenAPI
 
-// Api Endpoints for Helloworld service
+// API Endpoints for Helloworld service
 func NewHelloworldEndpoints() []*api.Endpoint {
 	return []*api.Endpoint{
 		&api.Endpoint{
@@ -47,7 +49,98 @@ func NewHelloworldEndpoints() []*api.Endpoint {
 	}
 }
 
+// Swagger OpenAPI 3.0 for Helloworld service
+func NewHelloworldOpenAPI() *registry.OpenAPI {
+	return &registry.OpenAPI{
+		Openapi: "3.0.1",
+		Info: &registry.OpenAPIInfo{
+			Title:       "HelloworldService",
+			Description: "'OpenAPI3.0 for Helloworld'",
+		},
+		Version: "v1.0.0",
+		Servers: []string{},
+		Tags: []*registry.OpenAPITag{
+			&registry.OpenAPITag{
+				Name:        "Helloworld",
+				Description: "OpenAPI3.0 for Helloworld",
+			},
+		},
+		Paths: map[string]*registry.OpenAPIPath{
+			"/api/v1/call": &registry.OpenAPIPath{
+				Get: &registry.OpenAPIPathDocs{
+					Tags:        []string{"Helloworld"},
+					Description: "Helloworld Call",
+					OperationId: "HelloworldCall",
+					Parameters: []*registry.PathParameters{
+						&registry.PathParameters{
+							Name:        "name",
+							In:          "query",
+							Description: "HelloWorldRequest field name",
+							Required:    true,
+							Style:       "form",
+							Explode:     true,
+							Schema: &registry.Schema{
+								Type: "string",
+							},
+						},
+						&registry.PathParameters{
+							Name:        "age",
+							In:          "query",
+							Description: "HelloWorldRequest field age",
+							Style:       "form",
+							Explode:     true,
+							Schema: &registry.Schema{
+								Type:   "integer",
+								Format: "int32",
+							},
+						},
+					},
+					Responses: map[string]*registry.PathResponse{
+						"200": &registry.PathResponse{
+							Description: "successful response (stream response)",
+							Content: &registry.PathRequestBodyContent{
+								ApplicationJson: &registry.ApplicationContent{
+									Schema: &registry.Schema{Ref: "#/components/errors/HelloWorldResponse"},
+								},
+							},
+						},
+					},
+					Security: []*registry.PathSecurity{},
+				},
+			},
+		},
+		Components: &registry.OpenAPIComponents{
+			SecuritySchemas: &registry.SecuritySchemas{},
+			Schemas: map[string]*registry.Model{
+				"proto.HelloWorldRequest": &registry.Model{
+					Type: "object",
+					Properties: map[string]*registry.Schema{
+						"name": &registry.Schema{
+							Type: "string",
+						},
+						"age": &registry.Schema{
+							Type:   "integer",
+							Format: "int32",
+						},
+					},
+					Required: []string{"name"},
+				},
+				"proto.HelloWorldResponse": &registry.Model{
+					Type: "object",
+					Properties: map[string]*registry.Schema{
+						"reply": &registry.Schema{
+							Type: "string",
+						},
+					},
+				},
+			},
+			Errors: map[string]*registry.Model{},
+		},
+	}
+}
+
 // Client API for Helloworld service
+// +gen:openapi
 type HelloworldService interface {
 	// +gen:get=/api/v1/call
 	// +gen:body=*
@@ -88,6 +181,7 @@ func (c *helloworldService) MulPath(ctx context.Context, in *MulPathRequest, opt
 }
 
 // Server API for Helloworld service
+// +gen:openapi
 type HelloworldHandler interface {
 	// +gen:get=/api/v1/call
 	// +gen:body=*
@@ -111,6 +205,7 @@ func RegisterHelloworldHandler(s server.Server, hdlr HelloworldHandler, opts ...
 		Body:    "*",
 		Handler: "rpc",
 	}))
+	opts = append(opts, server.OpenAPIHandler(NewHelloworldOpenAPI()))
 	return s.Handle(s.NewHandler(&Helloworld{h}, opts...))
 }
 

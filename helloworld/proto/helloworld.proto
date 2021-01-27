@@ -4,6 +4,7 @@ package testdata;
 
 import "github.com/lack-io/vine-example/goproto/api/generated.proto";
 
+// +gen:openapi
 service Helloworld {
   // +gen:get=/api/v1/call
   // +gen:body=*
